@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DRR-AI — Automated Disclosure Risk Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: '#1e3a5f',
+            'navy-dark': '#162d4a',
+            accent: '#2563eb',
+            'accent-dark': '#1d4ed8',
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+          },
+        }
+      }
+    }
+  </script>
+</head>
+<body class="font-sans text-gray-800 bg-white">
+
+  <!-- Sticky Navigation -->
+  <nav class="sticky top-0 z-50 bg-navy shadow-lg">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="./index.html" class="flex items-center space-x-2">
+          <img src="./assets/img/logo.svg" alt="DRR-AI Logo" class="h-8" />
+        </a>
+        <div class="hidden md:flex items-center space-x-1">
+          <a href="./index.html" class="px-4 py-2 rounded-md text-sm font-medium text-white bg-accent">Home</a>
+          <a href="./ies-drr.html" class="px-4 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition">IES DRR</a>
+          <a href="./icpsr-drr.html" class="px-4 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition">ICPSR DRR</a>
+          <a href="./contact.html" class="px-4 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition">Contact Us</a>
+        </div>
+        <!-- Mobile menu button -->
+        <button id="menu-btn" class="md:hidden text-gray-300 hover:text-white focus:outline-none">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-navy-dark border-t border-white/10">
+      <div class="px-4 py-2 space-y-1">
+        <a href="./index.html" class="block px-3 py-2 rounded-md text-sm font-medium text-white bg-accent">Home</a>
+        <a href="./ies-drr.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10">IES DRR</a>
+        <a href="./icpsr-drr.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10">ICPSR DRR</a>
+        <a href="./contact.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10">Contact Us</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="bg-navy text-white py-24 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
+        Unblock Your Research.<br class="hidden sm:block" />
+        Automate Disclosure Risk Review.
+      </h1>
+      <p class="text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto mb-10 leading-relaxed">
+        DRR-AI helps education researchers and compliance officers audit manuscripts for IES, NCES, and ICPSR restricted-use data compliance in seconds, eliminating months of administrative delays.
+      </p>
+      <a href="./ies-drr.html" class="inline-block bg-accent hover:bg-accent-dark text-white font-semibold px-8 py-4 rounded-lg text-lg transition shadow-lg hover:shadow-xl">
+        Audit My Manuscript (Secure &amp; Private)
+      </a>
+    </div>
+  </section>
+
+  <!-- The Problem Section -->
+  <section class="bg-white py-20 px-4">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold text-navy mb-6">The Problem: The DRR Bottleneck</h2>
+      <div class="prose prose-lg text-gray-700 space-y-4 leading-relaxed">
+        <p>
+          Restricted-use data licenses unlock the most powerful insights in education research. They offer massive, nationally representative sample sizes and allow researchers to tackle complex questions that public-use data simply cannot answer. However, before sharing these findings with the public, researchers must obtain official Disclosure Risk Review (DRR) approval.
+        </p>
+        <p>
+          Unfortunately, many education researchers struggle to publish their work due to severely delayed DRR processes. Due to ongoing budget cuts at IES and the U.S. Department of Education, manual human reviews can now take <strong class="text-navy text-xl">several months</strong> to complete.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Goals Section -->
+  <section class="bg-gray-50 py-20 px-4">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-3xl font-bold text-navy mb-12 text-center">The Goals of DRR-AI</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Card 1 -->
+        <div class="bg-white rounded-xl shadow-md p-8 border-t-4 border-accent">
+          <div class="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-navy mb-3">Accelerate Approvals</h3>
+          <p class="text-gray-600 leading-relaxed">DRR-AI empowers researchers to self-check their manuscripts, ensuring zero-error submissions that human reviewers can process and approve instantly.</p>
+        </div>
+        <!-- Card 2 -->
+        <div class="bg-white rounded-xl shadow-md p-8 border-t-4 border-accent">
+          <div class="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-navy mb-3">Protect Scientific Value</h3>
+          <p class="text-gray-600 leading-relaxed">We ensure that the administrative burden of using restricted-use data never outweighs its scientific potential.</p>
+        </div>
+        <!-- Card 3 -->
+        <div class="bg-white rounded-xl shadow-md p-8 border-t-4 border-accent">
+          <div class="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-navy mb-3">Institutional Scalability</h3>
+          <p class="text-gray-600 leading-relaxed">DRR-AI is built to be a robust compliance tool, with the potential for adoption within IES, university IRBs, and other relevant data security institutions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Supported Data Ecosystems Section -->
+  <section class="bg-white py-20 px-4">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-3xl font-bold text-navy mb-12 text-center">Supported Data Ecosystems</h2>
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- IES/NCES Card -->
+        <a href="./ies-drr.html" class="block group bg-gray-50 rounded-xl p-8 border border-gray-200 hover:border-accent hover:shadow-lg transition">
+          <div class="w-full h-20 bg-gradient-to-r from-navy to-blue-700 rounded-lg flex items-center justify-center mb-6">
+            <span class="text-white font-bold text-xl tracking-wide">IES / NCES</span>
+          </div>
+          <h3 class="text-xl font-bold text-navy mb-2 group-hover:text-accent transition">IES / NCES Datasets</h3>
+          <p class="text-gray-600">ECLS-K, HSLS:09, ELS:2002, and NAEP restricted files.</p>
+          <span class="inline-block mt-4 text-accent font-medium text-sm group-hover:underline">Learn more →</span>
+        </a>
+        <!-- ICPSR Card -->
+        <a href="./icpsr-drr.html" class="block group bg-gray-50 rounded-xl p-8 border border-gray-200 hover:border-accent hover:shadow-lg transition">
+          <div class="w-full h-20 bg-gradient-to-r from-indigo-700 to-purple-700 rounded-lg flex items-center justify-center mb-6">
+            <span class="text-white font-bold text-xl tracking-wide">ICPSR</span>
+          </div>
+          <h3 class="text-xl font-bold text-navy mb-2 group-hover:text-accent transition">ICPSR Datasets</h3>
+          <p class="text-gray-600">High-risk datasets involving children, adolescents, mental health, and criminal history.</p>
+          <span class="inline-block mt-4 text-accent font-medium text-sm group-hover:underline">Learn more →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-navy text-gray-300 py-10 px-4">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm">&copy; 2026 DRR-AI. Built for education researchers.</p>
+      <a href="https://github.com/youmilab/drr-ai" target="_blank" rel="noopener" class="text-sm text-blue-300 hover:text-white transition flex items-center gap-2">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        youmilab/drr-ai
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('menu-btn').addEventListener('click', function() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ICPSR DRR — DRR-AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: '#1e3a5f',
+            'navy-dark': '#162d4a',
+            accent: '#2563eb',
+            'accent-dark': '#1d4ed8',
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+          },
+        }
+      }
+    }
+  </script>
+</head>
+<body class="font-sans text-gray-800 bg-white">
+
+  <!-- Sticky Navigation -->
+  <nav class="sticky top-0 z-50 bg-navy shadow-lg">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="./index.html" class="flex items-center space-x-2">
+          <img src="./assets/img/logo.svg" alt="DRR-AI Logo" class="h-8" />
+        </a>
+        <div class="hidden md:flex items-center space-x-1">
+          <a href="./index.html" class="px-4 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition">Home</a>
+          <a href="./ies-drr.html" class="px-4 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition">IES DRR</a>
+          <a href="./icpsr-drr.html" class="px-4 py-2 rounded-md text-sm font-medium text-white bg-accent">ICPSR DRR</a>
+          <a href="./contact.html" class="px-4 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition">Contact Us</a>
+        </div>
+        <button id="menu-btn" class="md:hidden text-gray-300 hover:text-white focus:outline-none">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden bg-navy-dark border-t border-white/10">
+      <div class="px-4 py-2 space-y-1">
+        <a href="./index.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10">Home</a>
+        <a href="./ies-drr.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10">IES DRR</a>
+        <a href="./icpsr-drr.html" class="block px-3 py-2 rounded-md text-sm font-medium text-white bg-accent">ICPSR DRR</a>
+        <a href="./contact.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10">Contact Us</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="bg-navy text-white py-20 px-4">
+    <div class="max-w-4xl mx-auto">
+      <p class="text-accent font-semibold text-sm uppercase tracking-wider mb-3">Compliance Guide</p>
+      <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight mb-5">ICPSR Disclosure Risk Review</h1>
+      <p class="text-lg text-blue-100 max-w-2xl leading-relaxed">
+        An overview of disclosure risk review requirements for researchers using ICPSR restricted-use datasets — including high-risk data involving children, adolescents, and sensitive topics.
+      </p>
+    </div>
+  </section>
+
+  <!-- What is ICPSR DRR? -->
+  <section class="bg-white py-16 px-4">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-bold text-navy mb-4">What is ICPSR DRR?</h2>
+      <div class="space-y-4 text-gray-700 leading-relaxed text-lg">
+        <p>
+          The Inter-university Consortium for Political and Social Research (ICPSR) provides restricted-use data access to researchers studying sensitive populations and phenomena. Like IES/NCES restricted-use data, ICPSR restricted-use datasets carry strict data use agreement (DUA) requirements that govern how findings may be reported and disseminated.
+        </p>
+        <p>
+          Researchers using ICPSR restricted-use data must comply with data use agreement terms before publishing or presenting findings derived from these datasets. Disclosure avoidance reviews help ensure that reported statistics cannot be used to re-identify individual study participants, particularly in datasets involving vulnerable populations.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Covered Datasets -->
+  <section class="bg-gray-50 py-16 px-4">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-2xl font-bold text-navy mb-8">Covered Datasets</h2>
+      <p class="text-gray-700 mb-8 leading-relaxed">
+        ICPSR restricted-use data typically involves high-risk populations where re-identification poses serious privacy risks. These include:
+      </p>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm text-center">
+          <div class="w-14 h-14 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-7 h-7 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-navy mb-2">Children &amp; Youth</h3>
+          <p class="text-gray-600 text-sm">Datasets involving minors require heightened privacy protections under federal regulations.</p>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm text-center">
+          <div class="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-7 h-7 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-navy mb-2">Adolescent Health</h3>
+          <p class="text-gray-600 text-sm">Studies covering adolescent behavior, substance use, and wellbeing carry special sensitivity requirements.</p>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm text-center">
+          <div class="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-7 h-7 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-navy mb-2">Mental Health</h3>
+          <p class="text-gray-600 text-sm">Datasets including psychiatric diagnoses, treatment history, or psychological assessments.</p>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm text-center">
+          <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-7 h-7 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-navy mb-2">Criminal History</h3>
+          <p class="text-gray-600 text-sm">Data on criminal justice involvement, arrests, or incarceration records require strict disclosure controls.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Submission Process -->
+  <section class="bg-white py-16 px-4">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-bold text-navy mb-8">Submission Process</h2>
+      <div class="space-y-6">
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-lg">1</div>
+          <div class="pt-1">
+            <h3 class="font-semibold text-gray-900 mb-1">Review Your Data Use Agreement (DUA)</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">Each ICPSR restricted-use dataset has a specific DUA that outlines publication and dissemination requirements. Carefully review the DUA terms before preparing any manuscript or report.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-lg">2</div>
+          <div class="pt-1">
+            <h3 class="font-semibold text-gray-900 mb-1">Prepare Your Manuscript Following DUA Requirements</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">Apply all required disclosure avoidance procedures specified in your DUA — including cell size suppression, rounding, and restrictions on presenting combinations of variables that could identify individuals.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-lg">3</div>
+          <div class="pt-1">
+            <h3 class="font-semibold text-gray-900 mb-1">Submit for Review</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">Contact the ICPSR data custodian or the relevant dataset depositor according to your DUA instructions. Submit all outputs — tables, figures, and written text — for disclosure review before distribution.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-lg">4</div>
+          <div class="pt-1">
+            <h3 class="font-semibold text-gray-900 mb-1">Await Clearance Before Distribution</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">Do not publish, present, or share any findings until formal clearance has been received. Keep clearance documentation on file.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Coming Soon Callout -->
+  <section class="bg-gray-50 py-16 px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-8 text-center">
+        <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-navy mb-3">Detailed ICPSR Checklist — Coming Soon</h2>
+        <p class="text-gray-600 leading-relaxed max-w-xl mx-auto">
+          A comprehensive, dataset-specific ICPSR disclosure risk review checklist is currently in development. It will cover specific disclosure avoidance rules, common pitfalls, and submission guidance for major ICPSR restricted-use datasets. Check back soon or contact us to learn more.
+        </p>
+        <a href="./contact.html" class="inline-block mt-6 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg transition">
+          Contact Us for Updates
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-navy py-16 px-4 text-center text-white">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-2xl font-bold mb-4">Questions About ICPSR DRR?</h2>
+      <p class="text-blue-100 mb-8">Reach out for guidance on ICPSR restricted-use data requirements or DRR-AI's upcoming ICPSR checklist.</p>
+      <a href="./contact.html" class="inline-block bg-accent hover:bg-accent-dark text-white font-semibold px-8 py-4 rounded-lg text-lg transition shadow-lg">
+        Contact Us
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-navy text-gray-300 py-10 px-4 border-t border-white/10">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm">&copy; 2026 DRR-AI. Built for education researchers.</p>
+      <a href="https://github.com/youmilab/drr-ai" target="_blank" rel="noopener" class="text-sm text-blue-300 hover:text-white transition flex items-center gap-2">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        youmilab/drr-ai
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('menu-btn').addEventListener('click', function() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>
