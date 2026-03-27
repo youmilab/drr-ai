@@ -1,4 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 36" width="120" height="36">
-  <rect width="120" height="36" rx="6" fill="#2563eb"/>
-  <text x="10" y="25" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="white" letter-spacing="1">DRR-AI</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 38" width="160" height="38">
+  <defs>
+    <linearGradient id="docGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Document body -->
+  <rect x="2" y="2" width="24" height="30" rx="3" fill="url(#docGrad)"/>
+
+  <!-- Folded corner (top-right) -->
+  <path d="M20 2 L26 8 L20 8 Z" fill="white" opacity="0.25"/>
+
+  <!-- Rule lines suggesting text/checklist -->
+  <line x1="6" y1="13" x2="22" y2="13" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.55"/>
+  <line x1="6" y1="18" x2="19" y2="18" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.55"/>
+  <line x1="6" y1="23" x2="21" y2="23" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.55"/>
+
+  <!-- Green checkmark badge (bottom-right corner of document) -->
+  <circle cx="26" cy="30" r="8" fill="#16a34a"/>
+  <path d="M21.5 30.2 L24.5 33 L30 26.5" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Wordmark: DRR in white, -AI in lighter blue -->
+  <text x="40" y="25" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800" fill="white" letter-spacing="0.3">DRR<tspan fill="#93c5fd" font-weight="700">-AI</tspan></text>
 </svg>
