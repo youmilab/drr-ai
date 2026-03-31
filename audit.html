@@ -82,6 +82,16 @@
 
   <!-- Upload Card Section -->
   <section id="upload-section" class="bg-gray-50 py-16 px-4">
+    <!-- Privacy Banner -->
+    <div class="max-w-2xl mx-auto mb-6 bg-blue-50 border border-blue-200 rounded-xl px-5 py-4 flex items-start gap-3">
+      <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0117.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+      </svg>
+      <p class="text-sm text-blue-800 leading-relaxed">
+        <span class="font-semibold">Privacy guarantee:</span>
+        All files are processed entirely in-memory. No files are saved to our servers, and your data is never used to train AI models.
+      </p>
+    </div>
     <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-8 border border-gray-100">
       <h2 class="text-xl font-bold text-navy mb-6">Upload &amp; Configure</h2>
 
@@ -124,21 +134,13 @@
         </div>
       </div>
 
-      <!-- 3. Email Field -->
-      <div class="mb-6">
-        <label for="email-input" class="block text-sm font-semibold text-gray-700 mb-1">Email address</label>
-        <p class="text-xs text-gray-500 mb-2">We'll send a secure link to your report</p>
-        <input id="email-input" type="email" placeholder="your@institution.edu"
-               class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition" />
-      </div>
-
-      <!-- 4. Consent Checkbox -->
+      <!-- 3. Consent Checkbox -->
       <div class="mb-8">
         <label class="flex items-start gap-3 cursor-pointer">
           <input id="consent-checkbox" type="checkbox"
                  class="mt-0.5 w-4 h-4 accent-blue-600 flex-shrink-0 cursor-pointer" />
           <span class="text-sm text-gray-600 leading-relaxed">
-            I confirm I am authorized to submit this document. I understand this tool is an unofficial self-check, files are not retained, and no data is used for AI training.
+            I confirm I am authorized to submit this document. I understand this tool processes documents entirely in-memory using Zero-Retention Commercial APIs. No data is written to disk, stored on servers, or used for AI training.
           </span>
         </label>
       </div>
@@ -172,13 +174,12 @@
       <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div class="flex items-center gap-4">
-            <span class="inline-flex items-center gap-2 bg-yellow-100 text-yellow-800 font-bold text-lg px-5 py-2 rounded-full">
-              ⚠ REVIEW NEEDED
+            <span id="status-badge" class="inline-flex items-center gap-2 bg-yellow-100 text-yellow-800 font-bold text-lg px-5 py-2 rounded-full">
+              REVIEW NEEDED
             </span>
-            <p class="text-gray-700 font-medium">5 items require attention before submission.</p>
+            <p id="status-message" class="text-gray-700 font-medium">5 items require attention before submission.</p>
           </div>
         </div>
-        <p class="mt-3 text-xs text-gray-400 italic">This is a simulated demo report. Live AI auditing is coming soon.</p>
       </div>
 
       <!-- 3b. Quote Masking Toggle -->
@@ -205,82 +206,7 @@
                 <th class="px-4 py-3 w-56">Recommendation</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-gray-100">
-              <!-- Row 1 -->
-              <tr class="hover:bg-red-50 transition">
-                <td class="px-4 py-3">
-                  <span class="inline-flex items-center gap-1 bg-red-100 text-red-700 text-xs font-bold px-2.5 py-1 rounded-full">
-                    🔴 High
-                  </span>
-                </td>
-                <td class="px-4 py-3 text-gray-600 text-xs">Table 2, Header</td>
-                <td class="px-4 py-3 text-gray-800">
-                  <span class="flag-quote"><code class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">"N = 413"</code></span>
-                  <span class="flag-generic text-gray-600 text-xs">An unrounded sample size was found</span>
-                </td>
-                <td class="px-4 py-3 text-gray-600 text-xs">Unweighted Ns must be rounded to nearest 10</td>
-                <td class="px-4 py-3 text-gray-700 text-xs font-medium">Change to <code class="bg-gray-100 px-1 rounded">"N = 410"</code></td>
-              </tr>
-              <!-- Row 2 -->
-              <tr class="hover:bg-red-50 transition">
-                <td class="px-4 py-3">
-                  <span class="inline-flex items-center gap-1 bg-red-100 text-red-700 text-xs font-bold px-2.5 py-1 rounded-full">
-                    🔴 High
-                  </span>
-                </td>
-                <td class="px-4 py-3 text-gray-600 text-xs">Page 8, Para 3</td>
-                <td class="px-4 py-3 text-gray-800">
-                  <span class="flag-quote"><code class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">"0 students"</code> in cell</span>
-                  <span class="flag-generic text-gray-600 text-xs">A near-zero cell value was found</span>
-                </td>
-                <td class="px-4 py-3 text-gray-600 text-xs">Near-zero cells must show "&lt;10", not "0"</td>
-                <td class="px-4 py-3 text-gray-700 text-xs font-medium">Replace with <code class="bg-gray-100 px-1 rounded">&lt;10</code></td>
-              </tr>
-              <!-- Row 3 -->
-              <tr class="hover:bg-yellow-50 transition">
-                <td class="px-4 py-3">
-                  <span class="inline-flex items-center gap-1 bg-yellow-100 text-yellow-700 text-xs font-bold px-2.5 py-1 rounded-full">
-                    🟡 Review
-                  </span>
-                </td>
-                <td class="px-4 py-3 text-gray-600 text-xs">Table 3</td>
-                <td class="px-4 py-3 text-gray-800">
-                  <span class="flag-quote">No SOURCE: note found</span>
-                  <span class="flag-generic text-gray-600 text-xs">A required SOURCE note is missing</span>
-                </td>
-                <td class="px-4 py-3 text-gray-600 text-xs">All tables require a SOURCE: note</td>
-                <td class="px-4 py-3 text-gray-700 text-xs font-medium">Add <code class="bg-gray-100 px-1 rounded text-xs">"SOURCE: U.S. Dept. of Education, IES, NCES, HSLS:09"</code></td>
-              </tr>
-              <!-- Row 4 -->
-              <tr class="hover:bg-yellow-50 transition">
-                <td class="px-4 py-3">
-                  <span class="inline-flex items-center gap-1 bg-yellow-100 text-yellow-700 text-xs font-bold px-2.5 py-1 rounded-full">
-                    🟡 Review
-                  </span>
-                </td>
-                <td class="px-4 py-3 text-gray-600 text-xs">Page 12, Para 1</td>
-                <td class="px-4 py-3 text-gray-800">
-                  <span class="flag-quote"><code class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">"previously within the Dept. of Education"</code></span>
-                  <span class="flag-generic text-gray-600 text-xs">Incorrect NCES agency language detected</span>
-                </td>
-                <td class="px-4 py-3 text-gray-600 text-xs">NCES is "in IES", not "previously within" DoE</td>
-                <td class="px-4 py-3 text-gray-700 text-xs font-medium">Revise to <code class="bg-gray-100 px-1 rounded">"NCES in IES"</code></td>
-              </tr>
-              <!-- Row 5 -->
-              <tr class="hover:bg-yellow-50 transition">
-                <td class="px-4 py-3">
-                  <span class="inline-flex items-center gap-1 bg-yellow-100 text-yellow-700 text-xs font-bold px-2.5 py-1 rounded-full">
-                    🟡 Review
-                  </span>
-                </td>
-                <td class="px-4 py-3 text-gray-600 text-xs">Figure 1 caption</td>
-                <td class="px-4 py-3 text-gray-800">
-                  <span class="flag-quote">No weighted/unweighted label in caption</span>
-                  <span class="flag-generic text-gray-600 text-xs">A weighted/unweighted label is missing</span>
-                </td>
-                <td class="px-4 py-3 text-gray-600 text-xs">Figures must state if data are weighted or unweighted</td>
-                <td class="px-4 py-3 text-gray-700 text-xs font-medium">Add <code class="bg-gray-100 px-1 rounded text-xs">"Note: Data shown are unweighted."</code></td>
-              </tr>
+            <tbody id="triage-tbody" class="divide-y divide-gray-100">
             </tbody>
           </table>
         </div>
@@ -323,11 +249,13 @@
       document.getElementById('mobile-menu').classList.toggle('hidden');
     });
 
+    // ── Backend URL ────────────────────────────────────────────────────────────
+    var BACKEND_URL = 'http://localhost:8000';
+
     // ── State ──────────────────────────────────────────────────────────────────
     var state = {
       file: null,
       framework: 'ies',
-      emailValid: false,
       consented: false
     };
 
@@ -395,12 +323,6 @@
       }
     }
 
-    // ── Email validation ───────────────────────────────────────────────────────
-    document.getElementById('email-input').addEventListener('input', function () {
-      state.emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value.trim());
-      validateForm();
-    });
-
     // ── Consent checkbox ───────────────────────────────────────────────────────
     document.getElementById('consent-checkbox').addEventListener('change', function () {
       state.consented = this.checked;
@@ -411,7 +333,7 @@
     var submitBtn = document.getElementById('submit-btn');
 
     function validateForm() {
-      var ready = state.file && state.emailValid && state.consented;
+      var ready = state.file && state.consented;
       submitBtn.disabled = !ready;
       submitBtn.setAttribute('aria-disabled', String(!ready));
       if (ready) {
@@ -421,17 +343,126 @@
       }
     }
 
-    // ── Submit → spinner → report ──────────────────────────────────────────────
-    submitBtn.addEventListener('click', function () {
+    // ── Submit → spinner → API → report ───────────────────────────────────────
+    submitBtn.addEventListener('click', async function () {
       if (submitBtn.disabled) return;
+
+      var errBanner = document.getElementById('error-banner');
+      if (errBanner) errBanner.classList.add('hidden');
+
       document.getElementById('upload-section').classList.add('hidden');
       document.getElementById('spinner-section').classList.remove('hidden');
-      setTimeout(function () {
+
+      try {
+        var formData = new FormData();
+        formData.append('file', state.file);
+        formData.append('framework', state.framework);
+
+        var response = await fetch(BACKEND_URL + '/audit', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) {
+          var errData = await response.json().catch(function () {
+            return { detail: 'Server error (' + response.status + ')' };
+          });
+          throw new Error(errData.detail || 'Server error');
+        }
+
+        var data = await response.json();
+        renderReport(data);
+
+      } catch (err) {
         document.getElementById('spinner-section').classList.add('hidden');
-        document.getElementById('report-section').classList.remove('hidden');
-        document.getElementById('report-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 2000);
+        document.getElementById('upload-section').classList.remove('hidden');
+        showError(err.message || 'An unexpected error occurred. Please try again.');
+      }
     });
+
+    // ── Render report from API response ───────────────────────────────────────
+    function renderReport(data) {
+      document.getElementById('spinner-section').classList.add('hidden');
+
+      var statusBadge = document.getElementById('status-badge');
+      var statusMsg = document.getElementById('status-message');
+
+      if (data.status === 'PASS') {
+        statusBadge.className = 'inline-flex items-center gap-2 bg-green-100 text-green-800 font-bold text-lg px-5 py-2 rounded-full';
+        statusBadge.textContent = 'PASS';
+        statusMsg.textContent = 'No issues found. Document appears compliant.';
+      } else if (data.status === 'HIGH RISK') {
+        statusBadge.className = 'inline-flex items-center gap-2 bg-red-100 text-red-800 font-bold text-lg px-5 py-2 rounded-full';
+        statusBadge.textContent = 'HIGH RISK';
+        statusMsg.textContent = (data.item_count || 0) + ' item(s) require immediate attention.';
+      } else {
+        statusBadge.className = 'inline-flex items-center gap-2 bg-yellow-100 text-yellow-800 font-bold text-lg px-5 py-2 rounded-full';
+        statusBadge.textContent = 'REVIEW NEEDED';
+        statusMsg.textContent = (data.item_count || 0) + ' item(s) require attention before submission.';
+      }
+
+      var tbody = document.getElementById('triage-tbody');
+      tbody.innerHTML = '';
+
+      if (!data.findings || data.findings.length === 0) {
+        var emptyRow = document.createElement('tr');
+        emptyRow.innerHTML = '<td colspan="5" class="px-4 py-6 text-center text-gray-400 text-sm">No findings — document is compliant.</td>';
+        tbody.appendChild(emptyRow);
+      } else {
+        data.findings.forEach(function (f) {
+          var severityClass, severityLabel, rowHover;
+          if (f.severity === 'High') {
+            severityClass = 'bg-red-100 text-red-700';
+            severityLabel = 'High';
+            rowHover = 'hover:bg-red-50 transition';
+          } else if (f.severity === 'Low') {
+            severityClass = 'bg-blue-100 text-blue-700';
+            severityLabel = 'Low';
+            rowHover = 'hover:bg-blue-50 transition';
+          } else {
+            severityClass = 'bg-yellow-100 text-yellow-700';
+            severityLabel = 'Review';
+            rowHover = 'hover:bg-yellow-50 transition';
+          }
+          var row = document.createElement('tr');
+          row.className = rowHover;
+          row.innerHTML =
+            '<td class="px-4 py-3">' +
+              '<span class="inline-flex items-center gap-1 ' + severityClass + ' text-xs font-bold px-2.5 py-1 rounded-full">' +
+                severityLabel +
+              '</span>' +
+            '</td>' +
+            '<td class="px-4 py-3 text-gray-600 text-xs">' + escapeHtml(f.location || '') + '</td>' +
+            '<td class="px-4 py-3 text-gray-600 text-xs">' + escapeHtml(f.flag || '') + '</td>' +
+            '<td class="px-4 py-3 text-gray-600 text-xs">' + escapeHtml(f.rule || '') + '</td>' +
+            '<td class="px-4 py-3 text-gray-700 text-xs font-medium">' + escapeHtml(f.recommendation || '') + '</td>';
+          tbody.appendChild(row);
+        });
+      }
+
+      document.getElementById('report-section').classList.remove('hidden');
+      document.getElementById('report-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function showError(msg) {
+      var errBanner = document.getElementById('error-banner');
+      if (!errBanner) {
+        errBanner = document.createElement('div');
+        errBanner.id = 'error-banner';
+        errBanner.className = 'mt-4 bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-800';
+        document.getElementById('submit-btn').insertAdjacentElement('afterend', errBanner);
+      }
+      errBanner.textContent = 'Error: ' + msg;
+      errBanner.classList.remove('hidden');
+    }
 
     // ── Quote masking toggle ───────────────────────────────────────────────────
     document.getElementById('mask-toggle').addEventListener('change', function () {
@@ -445,23 +476,23 @@
 
     // ── Start New Audit ────────────────────────────────────────────────────────
     document.getElementById('new-audit-btn').addEventListener('click', function () {
-      // Reset state
       state.file = null;
-      state.emailValid = false;
       state.consented = false;
 
-      // Reset form UI
       document.getElementById('file-input').value = '';
       document.getElementById('file-info').classList.add('hidden');
       dropzone.classList.remove('dropzone-selected', 'dropzone-hover');
-      document.getElementById('email-input').value = '';
       document.getElementById('consent-checkbox').checked = false;
       document.getElementById('mask-toggle').checked = false;
       document.getElementById('triage-table').classList.remove('masked');
+      document.getElementById('triage-tbody').innerHTML = '';
+
+      var errBanner = document.getElementById('error-banner');
+      if (errBanner) errBanner.classList.add('hidden');
+
       setFramework('ies');
       validateForm();
 
-      // Show upload, hide report
       document.getElementById('report-section').classList.add('hidden');
       document.getElementById('upload-section').classList.remove('hidden');
       document.getElementById('upload-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
