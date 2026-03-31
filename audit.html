@@ -28,11 +28,7 @@
   <style>
     .dropzone-hover { border-color: #2563eb; background-color: #eff6ff; }
     .dropzone-selected { border-color: #16a34a; background-color: #f0fdf4; }
-    /* Quote masking: hide quoted text in flag cells when .masked is on the table */
-    #triage-table.masked .flag-quote { display: none; }
-    #triage-table.masked .flag-generic { display: inline; }
-    #triage-table:not(.masked) .flag-quote { display: inline; }
-    #triage-table:not(.masked) .flag-generic { display: none; }
+
   </style>
 </head>
 <body class="font-sans text-gray-800 bg-white">
@@ -182,15 +178,7 @@
         </div>
       </div>
 
-      <!-- 3b. Quote Masking Toggle -->
-      <div class="flex items-center gap-3">
-        <label class="flex items-center gap-2 cursor-pointer select-none text-sm text-gray-600 font-medium">
-          <input id="mask-toggle" type="checkbox" class="w-4 h-4 accent-blue-600 cursor-pointer" />
-          Hide manuscript quotes from this report
-        </label>
-      </div>
-
-      <!-- 3c. Triage Table -->
+      <!-- 3b. Triage Table -->
       <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
         <div class="px-6 py-4 border-b border-gray-100">
           <h3 class="font-bold text-navy text-lg">Audit Findings</h3>
@@ -464,16 +452,6 @@
       errBanner.classList.remove('hidden');
     }
 
-    // ── Quote masking toggle ───────────────────────────────────────────────────
-    document.getElementById('mask-toggle').addEventListener('change', function () {
-      var table = document.getElementById('triage-table');
-      if (this.checked) {
-        table.classList.add('masked');
-      } else {
-        table.classList.remove('masked');
-      }
-    });
-
     // ── Start New Audit ────────────────────────────────────────────────────────
     document.getElementById('new-audit-btn').addEventListener('click', function () {
       state.file = null;
@@ -483,8 +461,6 @@
       document.getElementById('file-info').classList.add('hidden');
       dropzone.classList.remove('dropzone-selected', 'dropzone-hover');
       document.getElementById('consent-checkbox').checked = false;
-      document.getElementById('mask-toggle').checked = false;
-      document.getElementById('triage-table').classList.remove('masked');
       document.getElementById('triage-tbody').innerHTML = '';
 
       var errBanner = document.getElementById('error-banner');
