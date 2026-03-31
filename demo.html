@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo — DRR-AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: '#1e3a5f',
+            'navy-dark': '#162d4a',
+            accent: '#2563eb',
+            'accent-dark': '#1d4ed8',
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+          },
+        }
+      }
+    }
+  </script>
+</head>
+<body class="font-sans text-gray-800 bg-white">
+
+  <!-- Sticky Navigation -->
+  <nav class="sticky top-0 z-50 bg-navy shadow-lg">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="./index.html" class="flex items-center space-x-2">
+          <img src="./assets/img/logo.svg" alt="DRR-AI Logo" class="h-8" />
+        </a>
+        <div class="hidden md:flex items-center space-x-1">
+          <a href="./index.html" class="px-4 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition">Home</a>
+          <a href="./ies-drr.html" class="px-4 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition">IES DRR</a>
+          <a href="./icpsr-drr.html" class="px-4 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition">ICPSR DRR</a>
+          <a href="./audit.html" class="px-4 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition">Audit Manuscript</a>
+          <a href="./demo.html" class="px-4 py-2 rounded-md text-sm font-medium text-white bg-accent">Demo</a>
+          <a href="./contact.html" class="px-4 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition">Contact Us</a>
+        </div>
+        <button id="menu-btn" class="md:hidden text-gray-300 hover:text-white focus:outline-none">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden bg-navy-dark border-t border-white/10">
+      <div class="px-4 py-2 space-y-1">
+        <a href="./index.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10">Home</a>
+        <a href="./ies-drr.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10">IES DRR</a>
+        <a href="./icpsr-drr.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10">ICPSR DRR</a>
+        <a href="./audit.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10">Audit Manuscript</a>
+        <a href="./demo.html" class="block px-3 py-2 rounded-md text-sm font-medium text-white bg-accent">Demo</a>
+        <a href="./contact.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10">Contact Us</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="bg-navy text-white py-20 px-4">
+    <div class="max-w-4xl mx-auto">
+      <span class="inline-block bg-accent/20 text-blue-200 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4">Preview</span>
+      <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight mb-5">See DRR-AI in Action</h1>
+      <p class="text-lg text-blue-100 max-w-2xl leading-relaxed">
+        Watch how DRR-AI helps researchers check manuscripts for disclosure risk — and try it yourself with a sample paper.
+      </p>
+    </div>
+  </section>
+
+  <!-- Video Section -->
+  <section class="bg-white py-16 px-4">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-2xl font-bold text-navy mb-2">Watch the Videos</h2>
+      <p class="text-gray-600 mb-10">Four short videos covering the motivation, the privacy model, and a live walkthrough of the tool.</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- Video 1: Project Motivation -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+          <div class="relative w-full" style="padding-top: 56.25%;">
+            <div class="absolute inset-0 bg-navy flex flex-col items-center justify-center gap-3">
+              <svg class="w-14 h-14 text-white/30" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              <span class="text-blue-200 text-sm font-medium tracking-wide">Coming Soon</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-bold text-navy text-base mb-1">Project Motivation</h3>
+            <p class="text-gray-600 text-sm">Why restricted-use data research faces a disclosure bottleneck, and what DRR-AI does about it.</p>
+          </div>
+        </div>
+
+        <!-- Video 2: The Privacy Model -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+          <div class="relative w-full" style="padding-top: 56.25%;">
+            <div class="absolute inset-0 bg-navy flex flex-col items-center justify-center gap-3">
+              <svg class="w-14 h-14 text-white/30" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              <span class="text-blue-200 text-sm font-medium tracking-wide">Coming Soon</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-bold text-navy text-base mb-1">The Privacy Model</h3>
+            <p class="text-gray-600 text-sm">How the ephemeral, zero-retention architecture keeps your manuscript data off our servers.</p>
+          </div>
+        </div>
+
+        <!-- Video 3: How to Use DRR-AI -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+          <div class="relative w-full" style="padding-top: 56.25%;">
+            <div class="absolute inset-0 bg-navy flex flex-col items-center justify-center gap-3">
+              <svg class="w-14 h-14 text-white/30" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              <span class="text-blue-200 text-sm font-medium tracking-wide">Coming Soon</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-bold text-navy text-base mb-1">How to Use DRR-AI</h3>
+            <p class="text-gray-600 text-sm">A step-by-step walkthrough: upload your manuscript, select a framework, and read your audit report.</p>
+          </div>
+        </div>
+
+        <!-- Video 4: Live Audit Demo -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+          <div class="relative w-full" style="padding-top: 56.25%;">
+            <div class="absolute inset-0 bg-navy flex flex-col items-center justify-center gap-3">
+              <svg class="w-14 h-14 text-white/30" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              <span class="text-blue-200 text-sm font-medium tracking-wide">Coming Soon</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-bold text-navy text-base mb-1">Live Audit Demo</h3>
+            <p class="text-gray-600 text-sm">A real manuscript run through the tool, showing flagged findings and recommendations.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Sample Papers Section -->
+  <section class="bg-gray-50 py-16 px-4">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-2xl font-bold text-navy mb-2">Try It Yourself</h2>
+      <p class="text-gray-600 mb-6">Download one of these sample papers and run it through the Audit Manuscript tool. Each paper contains intentional disclosure risk issues — see if DRR-AI catches them all.</p>
+      <a href="./audit.html"
+         class="inline-flex items-center gap-2 bg-accent text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-accent-dark transition mb-10">
+        Open Audit Tool
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+        </svg>
+      </a>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Paper 1 -->
+        <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100 flex flex-col">
+          <span class="inline-block bg-accent/10 text-accent text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full mb-4 self-start">IES / NCES</span>
+          <h3 class="font-bold text-navy text-base mb-2">Achievement Gaps in Mathematics: A Restricted-Use Data Analysis</h3>
+          <p class="text-gray-600 text-sm flex-1">Contains unrounded sample sizes, missing SOURCE notes on tables, and a near-zero cell shown as "0" instead of "&lt;10".</p>
+          <div class="flex gap-2 mt-5 flex-wrap">
+            <a href="./assets/papers/sample_ies_paper_1.docx" download
+               class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-accent text-white text-xs font-semibold hover:bg-accent-dark transition">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              DOCX
+            </a>
+            <a href="./assets/papers/sample_ies_paper_1.pdf" download
+               class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white text-accent border border-accent text-xs font-semibold hover:bg-accent/5 transition">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </div>
+
+        <!-- Paper 2 -->
+        <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100 flex flex-col">
+          <span class="inline-block bg-accent/10 text-accent text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full mb-4 self-start">IES / NCES</span>
+          <h3 class="font-bold text-navy text-base mb-2">High School Longitudinal Study: College Readiness Indicators</h3>
+          <p class="text-gray-600 text-sm flex-1">Contains missing weighted/unweighted labels, incorrect NCES agency language, and a percentage rounded to too many decimal places.</p>
+          <div class="flex gap-2 mt-5 flex-wrap">
+            <a href="./assets/papers/sample_ies_paper_2.docx" download
+               class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-accent text-white text-xs font-semibold hover:bg-accent-dark transition">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              DOCX
+            </a>
+            <a href="./assets/papers/sample_ies_paper_2.pdf" download
+               class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white text-accent border border-accent text-xs font-semibold hover:bg-accent/5 transition">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </div>
+
+        <!-- Paper 3 -->
+        <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100 flex flex-col">
+          <span class="inline-block bg-indigo-50 text-indigo-700 text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full mb-4 self-start">ICPSR</span>
+          <h3 class="font-bold text-navy text-base mb-2">Youth Risk Behavior and Demographic Correlates</h3>
+          <p class="text-gray-600 text-sm flex-1">Contains a small cell with fewer than 5 respondents, an exposed complementary cell, and a geographic identifier for a small rural population.</p>
+          <div class="flex gap-2 mt-5 flex-wrap">
+            <a href="./assets/papers/sample_icpsr_paper.docx" download
+               class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-accent text-white text-xs font-semibold hover:bg-accent-dark transition">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              DOCX
+            </a>
+            <a href="./assets/papers/sample_icpsr_paper.pdf" download
+               class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white text-accent border border-accent text-xs font-semibold hover:bg-accent/5 transition">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              PDF
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <p class="mt-8 text-xs text-gray-400 italic text-center">
+        These papers are fictional and created solely for demonstration purposes. Any resemblance to real research is coincidental.
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-navy text-gray-300 py-10 px-4 border-t border-white/10">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm">&copy; 2026 DRR-AI. Built for education researchers.</p>
+      <a href="https://github.com/youmilab/drr-ai" target="_blank" rel="noopener" class="text-sm text-blue-300 hover:text-white transition flex items-center gap-2">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        youmilab/drr-ai
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('menu-btn').addEventListener('click', function () {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>
