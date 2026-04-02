@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DRR-AI: The Privacy Model</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #1e3a5f;
+      --navy-dark:  #162d4a;
+      --accent:     #2563eb;
+      --accent-lt:  #eff6ff;
+      --white:      #ffffff;
+      --gray-100:   #f3f4f6;
+      --gray-600:   #4b5563;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0f1e30;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── Slide container ── */
+    .deck {
+      position: relative;
+      width: 900px;
+      height: 506px; /* 16:9 */
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity .35s ease, transform .35s ease;
+      pointer-events: none;
+    }
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+    .slide.prev {
+      opacity: 0;
+      transform: translateX(-40px);
+    }
+
+    /* ── Layout helpers ── */
+    .slide-inner {
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 40px 64px;
+    }
+
+    /* ── Header bar ── */
+    .header-bar {
+      background: var(--navy-dark);
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-size: 18px; font-weight: 800;
+      color: var(--white); letter-spacing: -.5px;
+    }
+    .logo-text span { color: #60a5fa; }
+    .slide-label {
+      font-size: 11px; font-weight: 600;
+      color: #94a3b8; letter-spacing: .08em; text-transform: uppercase;
+    }
+
+    /* ── Accent bar ── */
+    .accent-bar {
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent) 0%, #60a5fa 100%);
+      flex-shrink: 0;
+    }
+
+    /* ── Typography ── */
+    .eyebrow {
+      font-size: 11px; font-weight: 700;
+      color: var(--accent); letter-spacing: .12em;
+      text-transform: uppercase; margin-bottom: 12px;
+    }
+    h1 { font-size: 38px; font-weight: 800; color: var(--navy); line-height: 1.15; }
+    h2 { font-size: 28px; font-weight: 800; color: var(--navy); line-height: 1.2; margin-bottom: 20px; }
+    .subtitle {
+      font-size: 16px; color: var(--gray-600); margin-top: 14px; line-height: 1.6; max-width: 620px;
+    }
+
+    /* ── Bullet list ── */
+    .bullets { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .bullets li {
+      display: flex; align-items: flex-start; gap: 14px;
+      font-size: 15px; color: #1e293b; line-height: 1.5;
+    }
+    .bullet-dot {
+      flex-shrink: 0;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--accent); display: flex; align-items: center; justify-content: center;
+      margin-top: 2px;
+    }
+    .bullet-dot svg { width: 11px; height: 11px; }
+
+    /* ── Highlight box ── */
+    .highlight-box {
+      background: var(--accent-lt);
+      border-left: 4px solid var(--accent);
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-size: 15px; color: #1e40af; line-height: 1.55;
+    }
+    .highlight-box strong { font-weight: 700; }
+
+    /* ── Two-column ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .col-card {
+      background: var(--gray-100); border-radius: 10px;
+      padding: 20px 22px;
+    }
+    .col-card h3 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+    .col-card p  { font-size: 13px; color: var(--gray-600); line-height: 1.55; }
+
+    /* ── Detail card (icon + heading + body) ── */
+    .detail-card {
+      background: var(--gray-100); border-radius: 12px; padding: 24px 28px;
+      display: flex; gap: 20px; align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    .detail-icon {
+      flex-shrink: 0;
+      width: 44px; height: 44px; border-radius: 10px;
+      background: var(--accent-lt);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .detail-icon svg { width: 22px; height: 22px; color: var(--accent); }
+    .detail-card h3 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+    .detail-card p  { font-size: 13.5px; color: var(--gray-600); line-height: 1.6; }
+
+    /* ── Architecture flow ── */
+    .flow { display: flex; align-items: center; gap: 0; margin-bottom: 20px; }
+    .flow-step {
+      flex: 1; background: var(--gray-100); border-radius: 10px;
+      padding: 14px 16px; text-align: center;
+    }
+    .flow-step .step-icon { font-size: 20px; margin-bottom: 6px; }
+    .flow-step h4 { font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+    .flow-step p  { font-size: 11px; color: var(--gray-600); line-height: 1.4; }
+    .flow-arrow {
+      flex-shrink: 0; width: 32px; text-align: center;
+      color: var(--accent); font-size: 18px; font-weight: 700;
+    }
+
+    /* ── Title slide ── */
+    .slide-title { background: var(--navy); }
+    .slide-title .content {
+      padding: 48px 64px;
+      justify-content: flex-end;
+      background: linear-gradient(135deg, var(--navy) 60%, #1d4ed8 100%);
+    }
+    .slide-title h1 { color: var(--white); font-size: 40px; margin-bottom: 12px; }
+    .slide-title .subtitle { color: #bfdbfe; margin-top: 0; }
+    .slide-title .tag {
+      display: inline-block;
+      background: rgba(255,255,255,.15); color: #bfdbfe;
+      font-size: 11px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; padding: 5px 12px; border-radius: 20px; margin-bottom: 20px;
+    }
+    .slide-title .affil {
+      margin-top: 24px; font-size: 13px; color: #93c5fd; font-weight: 500;
+    }
+
+    /* ── Last slide ── */
+    .slide-end { background: var(--navy); }
+    .slide-end .content {
+      align-items: center; justify-content: center; text-align: center;
+      background: linear-gradient(135deg, var(--navy) 60%, #1d4ed8 100%);
+    }
+    .slide-end h2 { color: var(--white); font-size: 28px; margin-bottom: 10px; }
+    .slide-end .url {
+      display: inline-block;
+      background: rgba(255,255,255,.12); color: #bfdbfe;
+      font-size: 15px; font-weight: 600; padding: 10px 24px;
+      border-radius: 8px; margin-top: 14px; letter-spacing: .02em;
+    }
+    .slide-end .sub { color: #93c5fd; font-size: 14px; margin-top: 18px; line-height: 1.7; }
+    .slide-end .video-links {
+      display: flex; gap: 12px; justify-content: center; margin-top: 18px;
+    }
+    .video-pill {
+      background: rgba(255,255,255,.12); color: #bfdbfe;
+      font-size: 12px; font-weight: 600;
+      padding: 7px 16px; border-radius: 20px; letter-spacing: .02em;
+    }
+
+    /* ── Controls ── */
+    .controls {
+      display: flex; align-items: center; gap: 16px; margin-top: 18px;
+    }
+    .btn {
+      background: rgba(255,255,255,.1); border: none; cursor: pointer;
+      color: #e2e8f0; border-radius: 8px; width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; transition: background .2s;
+    }
+    .btn:hover { background: rgba(255,255,255,.2); }
+    .btn:disabled { opacity: .3; cursor: default; }
+    .progress { display: flex; gap: 6px; }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,.25); cursor: pointer; transition: background .2s;
+    }
+    .dot.active { background: #60a5fa; }
+    .slide-counter { color: #94a3b8; font-size: 12px; font-weight: 500; min-width: 40px; text-align: right; }
+
+    /* ── Audio bar ── */
+    .audio-bar {
+      width: 900px; height: 3px;
+      background: rgba(255,255,255,.12);
+      border-radius: 2px; margin-top: 8px; overflow: hidden;
+    }
+    .audio-fill {
+      height: 100%; background: #60a5fa; width: 0%;
+      transition: width .5s linear;
+    }
+  </style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- Slide 1: Title -->
+  <div class="slide slide-title active" id="s1" data-audio="audio/privacy_s1.mp3">
+    <div class="slide-inner">
+      <div class="accent-bar"></div>
+      <div class="content">
+        <span class="tag">Privacy &amp; Security</span>
+        <h1>The DRR-AI<br>Privacy Model</h1>
+        <p class="subtitle">How DRR-AI handles your manuscript securely — with zero data retention and fully in-memory processing.</p>
+        <p class="affil">Youmi Lab · Teachers College, Columbia University</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 2: Overview -->
+  <div class="slide" id="s2" data-audio="audio/privacy_s2.mp3">
+    <div class="slide-inner">
+      <div class="header-bar">
+        <span class="logo-text">DRR<span>-AI</span></span>
+        <span class="slide-label">Overview</span>
+      </div>
+      <div class="accent-bar"></div>
+      <div class="content" style="background:#fff;">
+        <p class="eyebrow">Designed for Restricted-Use Data</p>
+        <h2>Privacy and Security by Design</h2>
+        <ul class="bullets">
+          <li>
+            <span class="bullet-dot">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg>
+            </span>
+            <span>DRR-AI is designed to comply with <strong>restricted-use data license policies</strong> — your manuscript data is never retained, logged, or shared.</span>
+          </li>
+          <li>
+            <span class="bullet-dot">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg>
+            </span>
+            <span>All reviews are conducted entirely <strong>in memory</strong> using an <strong>ephemeral, zero-retention architecture</strong> — nothing is written to disk or stored on servers.</span>
+          </li>
+          <li>
+            <span class="bullet-dot">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg>
+            </span>
+            <span>Our system architecture enables researchers to audit their manuscripts <strong>securely and privately</strong> through the DRR-AI tool.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 3: Zero-Data-Retention API -->
+  <div class="slide" id="s3" data-audio="audio/privacy_s3.mp3">
+    <div class="slide-inner">
+      <div class="header-bar">
+        <span class="logo-text">DRR<span>-AI</span></span>
+        <span class="slide-label">Component 1</span>
+      </div>
+      <div class="accent-bar"></div>
+      <div class="content" style="background:#fff;">
+        <p class="eyebrow">AI Layer</p>
+        <h2>Zero-Data-Retention API</h2>
+        <div class="detail-card">
+          <div class="detail-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#2563eb"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          </div>
+          <div>
+            <h3>Legally Binding Enterprise Agreement</h3>
+            <p>DRR-AI uses a zero-data-retention API provided for <strong>commercial enterprise use</strong>. These enterprise APIs are governed by legally binding agreements stating that <strong>prompt data is not stored</strong> and is <strong>not used to train models</strong>.</p>
+          </div>
+        </div>
+        <div class="highlight-box">
+          Unlike consumer AI products, enterprise APIs carry contractual data protection guarantees — your manuscript content is processed and immediately discarded by the AI provider.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 4: In-Memory File Handling -->
+  <div class="slide" id="s4" data-audio="audio/privacy_s4.mp3">
+    <div class="slide-inner">
+      <div class="header-bar">
+        <span class="logo-text">DRR<span>-AI</span></span>
+        <span class="slide-label">Component 2</span>
+      </div>
+      <div class="accent-bar"></div>
+      <div class="content" style="background:#fff;">
+        <p class="eyebrow">Backend Layer</p>
+        <h2>In-Memory File Handling</h2>
+        <div class="detail-card">
+          <div class="detail-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#2563eb"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div>
+            <h3>Session-Only Processing</h3>
+            <p>DRR-AI parses Word and PDF files <strong>directly from the incoming web request buffer</strong> — files are never written to disk. Review results are displayed only within the <strong>active session</strong>. Once you leave the session, the results are no longer accessible.</p>
+          </div>
+        </div>
+        <div class="two-col" style="margin-top: 0;">
+          <div class="col-card" style="border-left: 3px solid var(--accent);">
+            <h3>What happens to your file</h3>
+            <p>Read into memory → text extracted → sent to AI → result returned → memory cleared. No disk writes at any step.</p>
+          </div>
+          <div class="col-card" style="border-left: 3px solid var(--accent);">
+            <h3>What we log</h3>
+            <p>Only non-identifying metadata: timestamp, framework used, token counts, and processing time. No file content, no text.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 5: Architecture summary -->
+  <div class="slide" id="s5" data-audio="audio/privacy_s5.mp3">
+    <div class="slide-inner">
+      <div class="header-bar">
+        <span class="logo-text">DRR<span>-AI</span></span>
+        <span class="slide-label">Architecture</span>
+      </div>
+      <div class="accent-bar"></div>
+      <div class="content" style="background:#fff;">
+        <p class="eyebrow">End-to-End Flow</p>
+        <h2>How It All Works Together</h2>
+        <div class="flow" style="margin-bottom: 20px;">
+          <div class="flow-step">
+            <div class="step-icon">📄</div>
+            <h4>Upload</h4>
+            <p>Word or PDF file sent over HTTPS</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="step-icon">⚡</div>
+            <h4>Extract</h4>
+            <p>Text parsed from request buffer — no disk write</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="step-icon">🔒</div>
+            <h4>Review</h4>
+            <p>Zero-retention enterprise AI audits the text</p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="step-icon">📋</div>
+            <h4>Report</h4>
+            <p>Results shown in session only, then discarded</p>
+          </div>
+        </div>
+        <div class="highlight-box">
+          At every step, <strong>no manuscript content touches a database or disk</strong>. The entire pipeline lives in RAM and is cleared when your session ends.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 6: Closing -->
+  <div class="slide slide-end" id="s6" data-audio="audio/privacy_s6.mp3">
+    <div class="slide-inner">
+      <div class="accent-bar"></div>
+      <div class="content">
+        <h2>Questions About Our Privacy Model?</h2>
+        <p class="sub">We're happy to answer any questions or concerns about our system architecture.<br>Reach out to us directly.</p>
+        <span class="url">youmilab.ai/drr-ai</span>
+        <p class="sub" style="margin-top: 24px; font-size: 13px;">Watch our other videos to see DRR-AI in practice:</p>
+        <div class="video-links">
+          <span class="video-pill">▶ How to Use DRR-AI</span>
+          <span class="video-pill">▶ Live Audit Demo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<audio id="narration" preload="none"></audio>
+<div class="audio-bar"><div class="audio-fill" id="audio-fill"></div></div>
+<!-- Controls -->
+<div class="controls">
+  <button class="btn" id="prev" onclick="changeSlide(-1)" disabled>&#8592;</button>
+  <div class="progress" id="progress"></div>
+  <button class="btn" id="next" onclick="changeSlide(1)">&#8594;</button>
+  <span class="slide-counter" id="counter">1 / 6</span>
+  <button class="btn" id="audio-btn" onclick="toggleAudio()" title="Play narration"
+    style="margin-left:10px;width:auto;padding:0 14px;display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;letter-spacing:.03em;">
+    <svg id="audio-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="5 3 19 12 5 21 5 3"/>
+    </svg>
+    Narration
+  </button>
+</div>
+
+<p style="color:#475569; font-size:11px; margin-top:10px; letter-spacing:.04em;">
+  Use ← → arrow keys or click to navigate
+</p>
+
+<script>
+  var current = 0;
+  var slides = document.querySelectorAll('.slide');
+  var total = slides.length;
+  var narration = document.getElementById('narration');
+  var audioIcon = document.getElementById('audio-icon');
+  var audioFill = document.getElementById('audio-fill');
+  var userStartedAudio = false;
+
+  var svgPlay  = '<polygon points="5 3 19 12 5 21 5 3"/>';
+  var svgPause = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+
+  function setAudioIcon(state) {
+    audioIcon.innerHTML = state === 'pause' ? svgPause : svgPlay;
+  }
+
+  narration.addEventListener('play',  function() { setAudioIcon('pause'); });
+  narration.addEventListener('pause', function() { setAudioIcon('play'); });
+  narration.addEventListener('ended', function() { setAudioIcon('play'); audioFill.style.width = '0%'; });
+  narration.addEventListener('timeupdate', function() {
+    if (narration.duration) {
+      audioFill.style.width = (narration.currentTime / narration.duration * 100) + '%';
+    }
+  });
+
+  function toggleAudio() {
+    userStartedAudio = true;
+    if (!narration.paused) {
+      narration.pause();
+    } else {
+      var src = slides[current].getAttribute('data-audio');
+      if (src) {
+        if (narration.ended || !narration.src) { narration.src = src; }
+        narration.play().catch(function(){});
+      }
+    }
+  }
+
+  // Build progress dots
+  var prog = document.getElementById('progress');
+  for (var i = 0; i < total; i++) {
+    var d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('data-i', i);
+    d.addEventListener('click', (function(idx){ return function(){ goTo(idx); }; })(i));
+    prog.appendChild(d);
+  }
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    slides[current].classList.add('prev');
+    setTimeout((function(old){ return function(){ slides[old].classList.remove('prev'); }; })(current), 350);
+    current = n;
+    slides[current].classList.add('active');
+    document.querySelectorAll('.dot').forEach(function(d, i){ d.classList.toggle('active', i === current); });
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
+    document.getElementById('prev').disabled = current === 0;
+    document.getElementById('next').disabled = current === total - 1;
+    // Audio: load new clip; auto-play if user has already started narration
+    narration.pause();
+    audioFill.style.width = '0%';
+    var src = slides[current].getAttribute('data-audio');
+    if (src) {
+      narration.src = src;
+      if (userStartedAudio) { narration.play().catch(function(){}); }
+    }
+  }
+
+  function changeSlide(dir) {
+    var n = current + dir;
+    if (n >= 0 && n < total) goTo(n);
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   changeSlide(-1);
+  });
+</script>
+</body>
+</html>
