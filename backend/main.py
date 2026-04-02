@@ -33,26 +33,38 @@ IES_RULES = """
 You are an expert in IES/NCES restricted-use data Disclosure Risk Review (DRR).
 Apply ALL of the following rules strictly:
 
-1. UNWEIGHTED NS: All unweighted sample sizes must be rounded to the nearest 10.
-   For ECLS-B data, rounding is to nearest 50. Near-zero cells must show "<10", never "0".
-2. ROUNDING STATEMENT: Manuscripts must include the statement:
-   "Numbers are unweighted and rounded to nearest 10" (or nearest 50 for ECLS-B).
+1. UNWEIGHTED NS: Only applies when the manuscript contains unweighted sample sizes derived
+   from restricted-use data. If no raw counts from restricted-use data are reported, do NOT
+   flag this rule. When applicable: all unweighted sample sizes must be rounded to the nearest
+   10 (nearest 50 for ECLS-B). Near-zero cells must show "<10", never "0".
+2. ROUNDING STATEMENT: Only applies when the manuscript contains raw numbers (sample sizes,
+   counts) derived from restricted-use data. If no such numbers are present, do NOT flag this
+   rule. When applicable: manuscripts must include the statement "Numbers are unweighted and
+   rounded to nearest 10" (or nearest 50 for ECLS-B).
 3. PERCENTAGES: Percentages with disclosure risk must be rounded to tenths (e.g., 23.4%).
    Proportions must be rounded to hundredths (e.g., 0.08).
-4. WEIGHTED/UNWEIGHTED LABELING: All sample sizes, tables, and figures must clearly
-   distinguish weighted vs. unweighted counts.
-5. SOURCE NOTES: Every table and figure must include a SOURCE note in the format:
-   "SOURCE: U.S. Dept. of Education, IES, NCES, [Survey Name]"
-6. AGENCY LANGUAGE: NCES must be referred to as being "in IES". Flag any use of
-   "previously within the Department of Education" or similar outdated phrasing.
-7. INTERNAL CONSISTENCY: Numbers in the text body must match numbers in tables and figures.
+4. WEIGHTED/UNWEIGHTED LABELING: Only applies when the manuscript explicitly reports sample
+   sizes (raw counts or Ns) derived from restricted-use data. When reported, the sample size
+   must be clearly labeled as weighted or unweighted. Figures showing statistical curves,
+   trends, or analyses do NOT need to specify weighted or unweighted status and must NOT be
+   flagged for this rule.
+5. SOURCE NOTES: Only applies to tables and figures that present point estimates or raw numbers
+   derived from restricted-use datasets (e.g., tables with cell values, figures with data
+   points, bar charts with frequencies or percentages). To determine whether a figure contains
+   such values, read the figure description and surrounding text — just as a human reviewer
+   would. Do NOT flag a figure for a missing SOURCE note if it contains no point estimates or
+   raw numbers from restricted-use data, even if the figure is related to a restricted-use
+   data study. Figures showing only curves, trends, theoretical frameworks, or causal diagrams
+   must NOT be flagged. When applicable, the SOURCE note format is:
+   "SOURCE: U.S. Department of Education, National Center for Education Statistics, [Survey Name]"
+6. INTERNAL CONSISTENCY: Numbers in the text body must match numbers in tables and figures.
    Flag any discrepancies.
-8. TABLE CVs: Coefficients of variation above 30% must be flagged with "!".
-   CVs above 50% must be suppressed with "‡".
-9. ROUNDING STANDARDS: Summary percentages max 1 decimal place; reference percentages
+7. TABLE CVs: Only applies when standard errors are reported. If no standard errors are
+   present, do NOT flag this rule. CV is defined as: CV = (Standard Error / Estimate) × 100.
+   When applicable: CVs above 30% must be flagged with "!" and a table note; CVs above 50%
+   must be suppressed with "‡" and a table note.
+8. ROUNDING STANDARDS: Summary percentages max 1 decimal place; reference percentages
    max 2 decimal places; standard errors must show 1 more decimal place than their estimates.
-10. PRODUCT SCOPE: All research products (preprints, slides, posters, proposals) require DRR.
-    Flag any product that appears not yet reviewed.
 """
 
 # ── ICPSR compliance rules ────────────────────────────────────────────────────
@@ -98,6 +110,12 @@ CRITICAL INSTRUCTIONS:
 - Location should be as precise as possible (e.g., "Table 2, Row 3" or "Page 4, Paragraph 2").
 - severity "High" = direct disclosure risk; "Review" = likely violation needing human check;
   "Low" = minor formatting or labeling issue.
+- ONLY include a finding if there is an actual violation or genuine uncertainty requiring
+  author action. Do NOT include findings where the conclusion is that no action is needed,
+  no violation exists, or a figure/table is confirmed exempt from a rule. If you verify
+  something is compliant or exempt, omit it from the findings entirely — do NOT include it
+  at any severity level (not "Low", not "Review", not "High") for transparency, completeness,
+  or any other reason. Exempt means absent from the findings, period.
 
 OUTPUT FORMAT: Respond with ONLY valid JSON — no markdown fences, no preamble:
 {{
@@ -237,6 +255,12 @@ async def audit_manuscript(
         raise HTTPException(status_code=502, detail=f"AI API error: {e}")
 
     raw = message.content[0].text.strip()
+    # Strip markdown code fences if the model wraps the JSON
+    if raw.startswith("```"):
+        raw = raw.split("```", 2)[1]
+        if raw.startswith("json"):
+            raw = raw[4:]
+        raw = raw.strip()
     try:
         report = json.loads(raw)
     except json.JSONDecodeError:
