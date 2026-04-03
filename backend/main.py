@@ -8,19 +8,30 @@ from pathlib import Path
 import anthropic
 from docx import Document
 from dotenv import load_dotenv
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pdfminer.high_level import extract_text as pdf_extract_text
 
 load_dotenv()
 
 app = FastAPI(title="DRR-AI Audit API")
 
+
+@app.exception_handler(Exception)
+async def unhandled_exception_handler(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code=500,
+        content={"detail": f"Internal server error: {type(exc).__name__}"},
+        headers={"Access-Control-Allow-Origin": "*"},
+    )
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Tighten to your domain in production
-    allow_methods=["POST", "GET", "OPTIONS"],
+    allow_origins=["*"],
+    allow_methods=["*"],
     allow_headers=["*"],
+    allow_credentials=False,
 )
 
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
