@@ -47,7 +47,11 @@ Apply ALL of the following rules strictly:
 1. UNWEIGHTED NS: Only applies when the manuscript contains unweighted sample sizes derived
    from restricted-use data. If no raw counts from restricted-use data are reported, do NOT
    flag this rule. When applicable: all unweighted sample sizes must be rounded to the nearest
-   10 (nearest 50 for ECLS-B). Cells with 1–9 observations (near-zero) must show "<10".
+   10 for all datasets EXCEPT ECLS-B, where the rounding increment is 50. "Nearest 50" refers
+   ONLY to the rounding increment for ECLS-B — it is NOT a cell size threshold and must NOT
+   be used to flag cells as small. A cell with N=43 in a non-ECLS-B dataset is not small; it
+   simply needs to be rounded to 40. Small cells are defined solely as cells with 1–9
+   observations, which must show "<10" instead of the exact count.
    A cell showing "0" is correct and must NOT be flagged if the context indicates the group
    genuinely has no observations (true zero). Only flag "0" if the surrounding text or table
    suggests the group does have some participants but the count appears to be a rounded
@@ -279,6 +283,7 @@ async def audit_manuscript(
         message = client.messages.create(
             model="claude-opus-4-6",
             max_tokens=2048,
+            temperature=0,
             messages=[{"role": "user", "content": prompt}],
         )
     except anthropic.APIError as e:
