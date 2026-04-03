@@ -77,11 +77,14 @@ Apply ALL of the following rules strictly:
    call yourself based on the manuscript text. Do NOT flag figures or tables that do not use
    restricted-use data at any severity level. When applicable, the SOURCE note format is:
    "SOURCE: U.S. Department of Education, National Center for Education Statistics, [Survey Name]"
-6. INTERNAL CONSISTENCY: Only applies when a specific number (estimate, count, or percentage)
-   is cited in both the manuscript text body AND in a table or figure. If the same value
-   appears in both places but does not match, flag it. Do NOT flag simply because the text
-   does not mention every value in a table or figure — authors are not required to narrate
-   all estimates in the text.
+6. INTERNAL CONSISTENCY: Only applies when the manuscript text explicitly references or
+   restates a specific value that also appears in a table or figure, AND those two instances
+   do not match. To flag this rule you must confirm BOTH: (a) the value appears in a table
+   or figure, AND (b) the text explicitly draws that same value from that table or figure.
+   A number that appears only in the text (with no corresponding table/figure entry) must NOT
+   be flagged — text and tables may legitimately report different or complementary information.
+   A number that appears only in a table (never cited in text) must NOT be flagged.
+   Only flag when the same specific value is present in both locations and they disagree.
 7. TABLE CVs: Only applies when standard errors are reported in tables. If no standard errors
    are present, do NOT flag this rule. For every estimate/SE pair in a table, you MUST
    calculate CV = (SE / Estimate) × 100 numerically before deciding whether to flag.
