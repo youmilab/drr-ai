@@ -64,8 +64,11 @@ specifies its required severity below. Always use exactly the severity stated.
    numbers (sample sizes, counts) derived from restricted-use data. If no such numbers are
    present, do NOT flag this rule. When applicable: manuscripts must include the statement
    "Numbers are unweighted and rounded to nearest 10" (or nearest 50 for ECLS-B).
-3. PERCENTAGES [severity: Low]: Percentages with disclosure risk must be rounded to tenths
-   (e.g., 23.4%). Proportions must be rounded to hundredths (e.g., 0.08).
+3. PERCENTAGES AND ROUNDING [severity: Low]: Only applies when percentage or proportion
+   values are explicitly present in the manuscript. If none are reported, do NOT flag this
+   rule. When applicable: summary percentages must be rounded to tenths (e.g., 23.4%, max
+   1 decimal place); reference percentages max 2 decimal places; proportions must be rounded
+   to hundredths (e.g., 0.08).
 4. WEIGHTED/UNWEIGHTED LABELING [severity: Review]: Only applies when the manuscript
    explicitly reports a sample size value (a raw count or N) derived from restricted-use
    data. That N must be clearly labeled as weighted or unweighted. This rule applies ONLY
@@ -97,10 +100,6 @@ specifies its required severity below. Always use exactly the severity stated.
    (severity "Review"); CVs above 50% require "‡" and suppression (severity "High"). When
    flagging, report the exact computed CV value and include the definition
    CV = (SE / Estimate) × 100 in the recommendation. Never flag CVs from text prose.
-8. ROUNDING STANDARDS [severity: Low]: Only applies when percentage values (e.g., 23.4%)
-   are explicitly present in the manuscript. If no percentages are reported, do NOT flag this
-   rule. When applicable: summary percentages max 1 decimal place; reference percentages max
-   2 decimal places.
 """
 
 # ── ICPSR compliance rules ────────────────────────────────────────────────────
