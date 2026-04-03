@@ -73,12 +73,18 @@ Apply ALL of the following rules strictly:
    call yourself based on the manuscript text. Do NOT flag figures or tables that do not use
    restricted-use data at any severity level. When applicable, the SOURCE note format is:
    "SOURCE: U.S. Department of Education, National Center for Education Statistics, [Survey Name]"
-6. INTERNAL CONSISTENCY: Numbers in the text body must match numbers in tables and figures.
-   Flag any discrepancies.
+6. INTERNAL CONSISTENCY: Only applies when a specific number (estimate, count, or percentage)
+   is cited in both the manuscript text body AND in a table or figure. If the same value
+   appears in both places but does not match, flag it. Do NOT flag simply because the text
+   does not mention every value in a table or figure — authors are not required to narrate
+   all estimates in the text.
 7. TABLE CVs: Only applies when standard errors are reported. If no standard errors are
    present, do NOT flag this rule. CV is defined as: CV = (Standard Error / Estimate) × 100.
-   When applicable: CVs above 30% must be flagged with "!" and a table note; CVs above 50%
-   must be suppressed with "‡" and a table note.
+   Compute the CV yourself for each estimate/SE pair in the manuscript. Only flag when the
+   computed CV actually exceeds the threshold: CVs above 30% must be flagged with "!" and a
+   table note; CVs above 50% must be suppressed with "‡" and a table note. Do NOT flag as
+   "Review" asking the author to check — make the determination yourself based on the values
+   in the manuscript.
 8. ROUNDING STANDARDS: Summary percentages max 1 decimal place; reference percentages
    max 2 decimal places.
 """
