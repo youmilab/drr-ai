@@ -93,11 +93,12 @@ Apply ALL of the following rules strictly:
 7. TABLE CVs: Only applies when standard errors are reported in tables. If no standard errors
    are present, do NOT flag this rule. For every estimate/SE pair in a table, you MUST
    calculate CV = (SE / Estimate) × 100 numerically before deciding whether to flag.
-   If the calculated CV is 30% or below, that cell is compliant — omit it from findings
-   entirely at any severity level. A CV finding may only appear if you have calculated a
-   specific numeric CV value that exceeds 30%. CVs above 30% require "!" and a table note;
-   CVs above 50% require "‡" and suppression. When flagging, report the exact computed CV
-   and include the definition CV = (SE / Estimate) × 100 in the recommendation.
+   If the calculated CV is 30% or below, that cell is fully compliant — produce NO finding
+   for it at any severity level (not High, not Review, not Low). Do NOT flag a CV as
+   "Review" asking the author to verify — you must compute it yourself and only flag if
+   the result exceeds 30%. CVs above 30% require "!" and a table note; CVs above 50%
+   require "‡" and suppression. When flagging, report the exact computed CV value and
+   include the definition CV = (SE / Estimate) × 100 in the recommendation.
    Never flag CVs from text prose — only from table cells with explicit SE values.
 8. ROUNDING STANDARDS: Only applies when percentage values (e.g., 23.4%, 0.45) are
    explicitly present in the manuscript. If the manuscript contains no percentage values,
@@ -148,6 +149,10 @@ CRITICAL INSTRUCTIONS:
 - CONSOLIDATE duplicate findings: if multiple rows or cells in the same table share the
   same violation and the same rule, report them as a single finding with the table as the
   location (e.g., "Table 1"). Do NOT create a separate finding for each row or cell.
+- ONE ISSUE PER FINDING: each finding must address exactly one rule and one specific
+  violation. Never combine two separate issues (e.g., a CV concern and a zero-cell concern)
+  into a single finding. If a single row has two different violations, create two separate
+  findings for that row.
 - Location should be as precise as possible (e.g., "Table 2, Row 3" or "Page 4, Paragraph 2"),
   but use the table-level location when consolidating repeated violations across rows.
 - severity "High" = direct disclosure risk; "Review" = likely violation needing human check;
