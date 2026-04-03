@@ -196,8 +196,25 @@ def extract_text_from_pdf(file_bytes: bytes) -> str:
 def extract_text_from_docx(file_bytes: bytes) -> str:
     buf = io.BytesIO(file_bytes)
     doc = Document(buf)
-    paragraphs = [p.text for p in doc.paragraphs if p.text.strip()]
-    return "\n".join(paragraphs)
+    blocks = []
+    for block in doc.element.body:
+        tag = block.tag.split("}")[-1] if "}" in block.tag else block.tag
+        if tag == "p":
+            from docx.oxml.ns import qn
+            text = "".join(node.text for node in block.iter(qn("w:t")) if node.text)
+            if text.strip():
+                blocks.append(text)
+        elif tag == "tbl":
+            for row in block.iter("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}tr"):
+                cells = []
+                for cell in row.iter("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}tc"):
+                    from docx.oxml.ns import qn as _qn
+                    cell_text = "".join(n.text for n in cell.iter(_qn("w:t")) if n.text)
+                    if cell_text.strip():
+                        cells.append(cell_text.strip())
+                if cells:
+                    blocks.append("\t".join(cells))
+    return "\n".join(blocks)
 
 
 # ── Metadata logging (zero PII) ───────────────────────────────────────────────
