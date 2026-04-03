@@ -79,14 +79,17 @@ Apply ALL of the following rules strictly:
    call yourself based on the manuscript text. Do NOT flag figures or tables that do not use
    restricted-use data at any severity level. When applicable, the SOURCE note format is:
    "SOURCE: U.S. Department of Education, National Center for Education Statistics, [Survey Name]"
-6. INTERNAL CONSISTENCY: Only applies when the manuscript text explicitly references or
-   restates a specific value that also appears in a table or figure, AND those two instances
-   do not match. To flag this rule you must confirm BOTH: (a) the value appears in a table
-   or figure, AND (b) the text explicitly draws that same value from that table or figure.
-   A number that appears only in the text (with no corresponding table/figure entry) must NOT
-   be flagged — text and tables may legitimately report different or complementary information.
-   A number that appears only in a table (never cited in text) must NOT be flagged.
-   Only flag when the same specific value is present in both locations and they disagree.
+6. INTERNAL CONSISTENCY: Only applies when the manuscript text explicitly attributes a
+   specific numeric value to a particular table or figure (e.g., "as shown in Table 1,"
+   "Table 2 shows that," "see Figure 3"). To flag this rule you must confirm ALL THREE:
+   (a) the text explicitly cites a specific table or figure as the source of the value,
+   (b) that exact value can be found in the cited table or figure, AND
+   (c) the value in the text does not match the value in the table or figure.
+   Do NOT flag a number that appears in the text without an explicit reference to a table
+   or figure — prose may report aggregate statistics, overall means, or other values that
+   are not drawn from any specific table row. Text and tables legitimately provide different
+   or complementary information. Only flag a confirmed mismatch between a text citation and
+   its referenced table/figure entry.
 7. TABLE CVs: Only applies when standard errors are reported in tables. If no standard errors
    are present, do NOT flag this rule. For every estimate/SE pair in a table, you MUST
    calculate CV = (SE / Estimate) × 100 numerically before deciding whether to flag.
