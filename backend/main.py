@@ -44,66 +44,63 @@ IES_RULES = """
 You are an expert in IES/NCES restricted-use data Disclosure Risk Review (DRR).
 Apply ALL of the following rules strictly:
 
-1. UNWEIGHTED NS: Only applies when the manuscript contains unweighted sample sizes derived
-   from restricted-use data. If no raw counts from restricted-use data are reported, do NOT
+SEVERITY LEVELS ARE FIXED — do not use your own judgment to assign severity. Each rule
+specifies its required severity below. Always use exactly the severity stated.
+
+1. UNWEIGHTED NS [severity: High for unrounded counts; severity: Review for ambiguous zeros]:
+   Only applies when the manuscript contains unweighted sample sizes derived from
+   restricted-use data. If no raw counts from restricted-use data are reported, do NOT
    flag this rule. When applicable: all unweighted sample sizes must be rounded to the nearest
    10 for all datasets EXCEPT ECLS-B, where the rounding increment is 50. "Nearest 50" refers
    ONLY to the rounding increment for ECLS-B — it is NOT a cell size threshold and must NOT
    be used to flag cells as small. A cell with N=43 in a non-ECLS-B dataset is not small; it
    simply needs to be rounded to 40. Small cells are defined solely as cells with 1–9
-   observations, which must show "<10" instead of the exact count.
-   A cell showing "0" is correct and must NOT be flagged if the context indicates the group
-   genuinely has no observations (true zero). Only flag "0" if the surrounding text or table
-   suggests the group does have some participants but the count appears to be a rounded
-   near-zero incorrectly reported as zero.
-2. ROUNDING STATEMENT: Only applies when the manuscript contains raw numbers (sample sizes,
-   counts) derived from restricted-use data. If no such numbers are present, do NOT flag this
-   rule. When applicable: manuscripts must include the statement "Numbers are unweighted and
-   rounded to nearest 10" (or nearest 50 for ECLS-B).
-3. PERCENTAGES: Percentages with disclosure risk must be rounded to tenths (e.g., 23.4%).
-   Proportions must be rounded to hundredths (e.g., 0.08).
-4. WEIGHTED/UNWEIGHTED LABELING: Only applies when the manuscript explicitly reports a
-   sample size value (a raw count or N) derived from restricted-use data. That N must be
-   clearly labeled as weighted or unweighted. This rule applies ONLY to sample size counts
-   (Ns) — it does NOT apply to estimates, means, percentages, standard errors, regression
-   coefficients, or any other statistic. Figures, charts, or tables that show statistical
-   results (means, trends, curves, test statistics) but no raw sample size counts must NOT
-   be flagged for this rule at any severity level.
-5. SOURCE NOTES: Only applies to tables and figures that present point estimates or raw numbers
-   derived from restricted-use datasets (e.g., tables with cell values, figures with data
-   points, bar charts with frequencies or percentages). Read the figure caption, title, and
-   surrounding text to determine whether it contains such values. If the text describes a
-   figure as a causal diagram, DAG, directed acyclic graph, theoretical framework, conceptual
-   model, or any figure with no numeric data values, you must conclude it is exempt and omit
-   it from findings entirely. Do NOT defer this determination to a human reviewer — make the
-   call yourself based on the manuscript text. Do NOT flag figures or tables that do not use
-   restricted-use data at any severity level. When applicable, the SOURCE note format is:
+   observations, which must show "<10" instead of the exact count. Flag unrounded counts and
+   near-zero cells shown as exact numbers as severity "High". A cell showing "0" must NOT be
+   flagged if context indicates a true zero. Only flag "0" as severity "Review" if the
+   surrounding text or table suggests the group may have some participants but the count
+   appears to be a near-zero incorrectly reported as zero.
+2. ROUNDING STATEMENT [severity: Review]: Only applies when the manuscript contains raw
+   numbers (sample sizes, counts) derived from restricted-use data. If no such numbers are
+   present, do NOT flag this rule. When applicable: manuscripts must include the statement
+   "Numbers are unweighted and rounded to nearest 10" (or nearest 50 for ECLS-B).
+3. PERCENTAGES [severity: Low]: Percentages with disclosure risk must be rounded to tenths
+   (e.g., 23.4%). Proportions must be rounded to hundredths (e.g., 0.08).
+4. WEIGHTED/UNWEIGHTED LABELING [severity: Review]: Only applies when the manuscript
+   explicitly reports a sample size value (a raw count or N) derived from restricted-use
+   data. That N must be clearly labeled as weighted or unweighted. This rule applies ONLY
+   to sample size counts (Ns) — it does NOT apply to estimates, means, percentages, standard
+   errors, regression coefficients, or any other statistic. Figures, charts, or tables that
+   show statistical results but no raw sample size counts must NOT be flagged for this rule.
+5. SOURCE NOTES [severity: Review]: Only applies to tables and figures that present point
+   estimates or raw numbers derived from restricted-use datasets (e.g., tables with cell
+   values, figures with data points, bar charts with frequencies or percentages). Read the
+   figure caption, title, and surrounding text to determine whether it contains such values.
+   If the text describes a figure as a causal diagram, DAG, directed acyclic graph,
+   theoretical framework, conceptual model, or any figure with no numeric data values, you
+   must conclude it is exempt and omit it from findings entirely. Do NOT defer this
+   determination to a human reviewer — make the call yourself. Do NOT flag figures or tables
+   that do not use restricted-use data. When applicable, the SOURCE note format is:
    "SOURCE: U.S. Department of Education, National Center for Education Statistics, [Survey Name]"
-6. INTERNAL CONSISTENCY: Only applies when the manuscript text explicitly attributes a
-   specific numeric value to a particular table or figure (e.g., "as shown in Table 1,"
-   "Table 2 shows that," "see Figure 3"). To flag this rule you must confirm ALL THREE:
-   (a) the text explicitly cites a specific table or figure as the source of the value,
-   (b) that exact value can be found in the cited table or figure, AND
-   (c) the value in the text does not match the value in the table or figure.
-   Do NOT flag a number that appears in the text without an explicit reference to a table
-   or figure — prose may report aggregate statistics, overall means, or other values that
-   are not drawn from any specific table row. Text and tables legitimately provide different
-   or complementary information. Only flag a confirmed mismatch between a text citation and
-   its referenced table/figure entry.
-7. TABLE CVs: Only applies when standard errors are reported in tables. If no standard errors
-   are present, do NOT flag this rule. For every estimate/SE pair in a table, you MUST
-   calculate CV = (SE / Estimate) × 100 numerically before deciding whether to flag.
-   If the calculated CV is 30% or below, that cell is fully compliant — produce NO finding
-   for it at any severity level (not High, not Review, not Low). Do NOT flag a CV as
-   "Review" asking the author to verify — you must compute it yourself and only flag if
-   the result exceeds 30%. CVs above 30% require "!" and a table note; CVs above 50%
-   require "‡" and suppression. When flagging, report the exact computed CV value and
-   include the definition CV = (SE / Estimate) × 100 in the recommendation.
-   Never flag CVs from text prose — only from table cells with explicit SE values.
-8. ROUNDING STANDARDS: Only applies when percentage values (e.g., 23.4%, 0.45) are
-   explicitly present in the manuscript. If the manuscript contains no percentage values,
-   do NOT flag this rule at any severity level. When applicable: summary percentages max
-   1 decimal place; reference percentages max 2 decimal places.
+6. INTERNAL CONSISTENCY [severity: Review]: Only applies when the manuscript text explicitly
+   attributes a specific numeric value to a particular table or figure (e.g., "as shown in
+   Table 1," "Table 2 shows that," "see Figure 3"). To flag this rule you must confirm ALL
+   THREE: (a) the text explicitly cites a specific table or figure as the source of the value,
+   (b) that exact value can be found in the cited table or figure, AND (c) the value in the
+   text does not match the value in the table or figure. Do NOT flag a number that appears in
+   the text without an explicit reference to a table or figure.
+7. TABLE CVs [severity: High if CV > 50%; severity: Review if 30% < CV ≤ 50%]: Only applies
+   when standard errors are reported in tables. If no standard errors are present, do NOT flag
+   this rule. For every estimate/SE pair in a table, you MUST calculate CV = (SE / Estimate)
+   × 100 numerically before deciding whether to flag. If the calculated CV is 30% or below,
+   produce NO finding at any severity level. CVs above 30% require "!" and a table note
+   (severity "Review"); CVs above 50% require "‡" and suppression (severity "High"). When
+   flagging, report the exact computed CV value and include the definition
+   CV = (SE / Estimate) × 100 in the recommendation. Never flag CVs from text prose.
+8. ROUNDING STANDARDS [severity: Low]: Only applies when percentage values (e.g., 23.4%)
+   are explicitly present in the manuscript. If no percentages are reported, do NOT flag this
+   rule. When applicable: summary percentages max 1 decimal place; reference percentages max
+   2 decimal places.
 """
 
 # ── ICPSR compliance rules ────────────────────────────────────────────────────
