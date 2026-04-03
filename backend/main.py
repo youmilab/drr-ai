@@ -78,15 +78,18 @@ Apply ALL of the following rules strictly:
    appears in both places but does not match, flag it. Do NOT flag simply because the text
    does not mention every value in a table or figure — authors are not required to narrate
    all estimates in the text.
-7. TABLE CVs: Only applies when standard errors are reported. If no standard errors are
-   present, do NOT flag this rule. CV is defined as: CV = (Standard Error / Estimate) × 100.
-   Compute the CV yourself for each estimate/SE pair in the manuscript. Only flag when the
-   computed CV actually exceeds the threshold: CVs above 30% must be flagged with "!" and a
-   table note; CVs above 50% must be suppressed with "‡" and a table note. Do NOT flag as
-   "Review" asking the author to check — make the determination yourself based on the values
-   in the manuscript.
-8. ROUNDING STANDARDS: Summary percentages max 1 decimal place; reference percentages
-   max 2 decimal places.
+7. TABLE CVs: Only applies when standard errors are reported in tables. If no standard errors
+   are present, do NOT flag this rule. CV (Coefficient of Variation) is defined as:
+   CV = (Standard Error / Estimate) × 100. Compute the CV yourself for each estimate/SE pair
+   found in the manuscript tables. If the computed CV does not exceed 30%, do NOT flag it at
+   any severity level. Only flag when the computed CV actually exceeds the threshold: CVs
+   above 30% must be flagged with "!" and a table note; CVs above 50% must be suppressed with
+   "‡" and a table note. When flagging, state the computed CV value and define CV as
+   (SE / Estimate) × 100 in the recommendation so authors understand the issue.
+   Do NOT flag estimates reported in text (Section prose) — only table entries with paired SEs.
+8. ROUNDING STANDARDS: Only applies when percentage values are present in the manuscript.
+   If no percentages are reported, do NOT flag this rule. When applicable: summary percentages
+   max 1 decimal place; reference percentages max 2 decimal places.
 """
 
 # ── ICPSR compliance rules ────────────────────────────────────────────────────
