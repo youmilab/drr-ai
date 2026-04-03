@@ -47,7 +47,11 @@ Apply ALL of the following rules strictly:
 1. UNWEIGHTED NS: Only applies when the manuscript contains unweighted sample sizes derived
    from restricted-use data. If no raw counts from restricted-use data are reported, do NOT
    flag this rule. When applicable: all unweighted sample sizes must be rounded to the nearest
-   10 (nearest 50 for ECLS-B). Near-zero cells must show "<10", never "0".
+   10 (nearest 50 for ECLS-B). Cells with 1–9 observations (near-zero) must show "<10".
+   A cell showing "0" is correct and must NOT be flagged if the context indicates the group
+   genuinely has no observations (true zero). Only flag "0" if the surrounding text or table
+   suggests the group does have some participants but the count appears to be a rounded
+   near-zero incorrectly reported as zero.
 2. ROUNDING STATEMENT: Only applies when the manuscript contains raw numbers (sample sizes,
    counts) derived from restricted-use data. If no such numbers are present, do NOT flag this
    rule. When applicable: manuscripts must include the statement "Numbers are unweighted and
@@ -76,7 +80,7 @@ Apply ALL of the following rules strictly:
    When applicable: CVs above 30% must be flagged with "!" and a table note; CVs above 50%
    must be suppressed with "‡" and a table note.
 8. ROUNDING STANDARDS: Summary percentages max 1 decimal place; reference percentages
-   max 2 decimal places; standard errors must show 1 more decimal place than their estimates.
+   max 2 decimal places.
 """
 
 # ── ICPSR compliance rules ────────────────────────────────────────────────────
