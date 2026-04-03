@@ -133,7 +133,11 @@ CRITICAL INSTRUCTIONS:
   Describe findings generically (e.g., "An unrounded sample size was found in Table 2"
   rather than repeating the actual value).
 - Each finding must be actionable and cite the specific rule violated.
-- Location should be as precise as possible (e.g., "Table 2, Row 3" or "Page 4, Paragraph 2").
+- CONSOLIDATE duplicate findings: if multiple rows or cells in the same table share the
+  same violation and the same rule, report them as a single finding with the table as the
+  location (e.g., "Table 1"). Do NOT create a separate finding for each row or cell.
+- Location should be as precise as possible (e.g., "Table 2, Row 3" or "Page 4, Paragraph 2"),
+  but use the table-level location when consolidating repeated violations across rows.
 - severity "High" = direct disclosure risk; "Review" = likely violation needing human check;
   "Low" = minor formatting or labeling issue.
 - ONLY include a finding if there is an actual violation or genuine uncertainty requiring
