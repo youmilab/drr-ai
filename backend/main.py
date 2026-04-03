@@ -62,11 +62,13 @@ Apply ALL of the following rules strictly:
    rounded to nearest 10" (or nearest 50 for ECLS-B).
 3. PERCENTAGES: Percentages with disclosure risk must be rounded to tenths (e.g., 23.4%).
    Proportions must be rounded to hundredths (e.g., 0.08).
-4. WEIGHTED/UNWEIGHTED LABELING: Only applies when the manuscript explicitly reports sample
-   sizes (raw counts or Ns) derived from restricted-use data. When reported, the sample size
-   must be clearly labeled as weighted or unweighted. Figures showing statistical curves,
-   trends, or analyses do NOT need to specify weighted or unweighted status and must NOT be
-   flagged for this rule.
+4. WEIGHTED/UNWEIGHTED LABELING: Only applies when the manuscript explicitly reports a
+   sample size value (a raw count or N) derived from restricted-use data. That N must be
+   clearly labeled as weighted or unweighted. This rule applies ONLY to sample size counts
+   (Ns) — it does NOT apply to estimates, means, percentages, standard errors, regression
+   coefficients, or any other statistic. Figures, charts, or tables that show statistical
+   results (means, trends, curves, test statistics) but no raw sample size counts must NOT
+   be flagged for this rule at any severity level.
 5. SOURCE NOTES: Only applies to tables and figures that present point estimates or raw numbers
    derived from restricted-use datasets (e.g., tables with cell values, figures with data
    points, bar charts with frequencies or percentages). Read the figure caption, title, and
