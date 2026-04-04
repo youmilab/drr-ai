@@ -54,13 +54,14 @@ specifies its required severity below. Always use exactly the severity stated.
    If a sample size is labeled "weighted" or described as a population estimate, do NOT flag
    it. If no unweighted counts are reported, do NOT flag this rule. When applicable: all
    unweighted sample sizes must be rounded to the nearest 10 for all datasets EXCEPT ECLS-B,
-   where the rounding increment is 50. A number that already ends in 0 (e.g., 20, 40, 150)
-   is already rounded to the nearest 10 and must NOT be flagged. "Nearest 50" refers ONLY
-   to the rounding increment for ECLS-B — it is NOT a cell size threshold. Small cells are
-   defined solely as cells with 1–9 observations; any N of 10 or above is NOT a small cell
-   and must NOT be flagged as such (e.g., N=20 is compliant and must not be flagged).
-   Small cells must show "<10" instead of the exact count. Flag unrounded counts as severity
-   "High". A cell showing "0" must NOT be flagged if context indicates a true zero. Only
+   where the rounding increment is 50. BEFORE flagging any N: check whether it ends in 0.
+   If the number ends in 0 (e.g., 10, 20, 40, 60, 100, 150, 200), it is already rounded to
+   the nearest 10 — it is compliant and must NOT be flagged under any circumstance. Only
+   flag Ns whose last digit is 1–9 (e.g., 43, 97, 182) as unrounded. "Nearest 50" refers
+   ONLY to the rounding increment for ECLS-B — it is NOT a cell size threshold. Small cells
+   are defined solely as cells with 1–9 observations; any N of 10 or above is NOT a small
+   cell and must NOT be flagged as such. Small cells must show "<10" instead of the exact
+   count. Flag unrounded counts as severity "High". A cell showing "0" must NOT be flagged if context indicates a true zero. Only
    flag "0" as severity "Review" if context suggests the group may have 1–9 participants
    incorrectly reported as zero.
 2. ROUNDING STATEMENT [severity: Review]: Only applies when the manuscript contains
@@ -68,9 +69,11 @@ specifies its required severity below. Always use exactly the severity stated.
    do NOT flag this rule. The manuscript must include a statement conveying that sample sizes
    are unweighted and rounded to the nearest 10 (or nearest 50 for ECLS-B). The exact wording
    does not need to match precisely — any paraphrase that clearly communicates both concepts
-   (unweighted AND rounded to nearest 10) is acceptable and must NOT be flagged. Search the
-   entire manuscript for this statement, including footnotes, table notes, and method sections;
-   do not flag if the statement appears anywhere in the manuscript.
+   (unweighted AND rounded to nearest 10) is acceptable and must NOT be flagged. A single
+   global statement anywhere in the manuscript (e.g., in the methods section, a footnote, or
+   a table note) is sufficient to cover all sample sizes throughout — authors are NOT required
+   to repeat "unweighted" next to every individual N in the text. Search the entire manuscript;
+   do not flag if the statement appears anywhere.
 3. PERCENTAGES AND ROUNDING [severity: Low]: Only applies to values that are explicitly
    percentages (e.g., 23.4%, values followed by "%" or described as "percent") or proportions
    (e.g., 0.08, described as a proportion or rate). Do NOT apply this rule to means, scores,
@@ -78,12 +81,14 @@ specifies its required severity below. Always use exactly the severity stated.
    even if they happen to be decimal numbers. When applicable: summary percentages must be
    rounded to tenths (max 1 decimal place); reference percentages max 2 decimal places;
    proportions must be rounded to hundredths (e.g., 0.08).
-4. WEIGHTED/UNWEIGHTED LABELING [severity: Review]: Only applies when the manuscript
-   explicitly reports a sample size value (a raw count or N) derived from restricted-use
-   data. That N must be clearly labeled as weighted or unweighted. This rule applies ONLY
-   to sample size counts (Ns) — it does NOT apply to estimates, means, percentages, standard
-   errors, regression coefficients, or any other statistic. Figures, charts, or tables that
-   show statistical results but no raw sample size counts must NOT be flagged for this rule.
+4. WEIGHTED/UNWEIGHTED LABELING [severity: Review]: Only applies to TABLES that report
+   sample size values (raw counts or Ns) derived from restricted-use data. Each such table
+   must include a note or label indicating whether the Ns are weighted or unweighted.
+   If a global rounding statement exists in the manuscript (see Rule 2), in-text sample sizes
+   are already covered by that statement — do NOT flag individual in-text Ns for lacking a
+   weighted/unweighted label. This rule applies ONLY to sample size counts (Ns) in tables —
+   it does NOT apply to estimates, means, percentages, standard errors, regression
+   coefficients, or any other statistic, nor to figures showing statistical results.
 5. SOURCE NOTES [severity: Review]: Only applies to tables and figures that present point
    estimates or raw numbers derived from restricted-use datasets (e.g., tables with cell
    values, figures with data points, bar charts with frequencies or percentages). Read the
