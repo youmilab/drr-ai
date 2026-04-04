@@ -194,20 +194,17 @@ CRITICAL INSTRUCTIONS:
   no violation exists, or a figure/table is confirmed exempt from a rule. If you verify
   something is compliant or exempt, omit it from the findings entirely — do NOT include it
   at any severity level. Exempt means absent from the findings, period.
-- NO-ACTION GATE: Before writing any finding, ask yourself: "Does my recommendation require
-  the author to take action?" If the answer is "no action needed" or "this is already
-  compliant," do NOT include the finding. A finding with "no action needed" must never
-  appear in the output.
+- NO-ACTION GATE: Do not include any finding whose recommendation would be "no action
+  needed" or "already compliant." Every finding must require the author to take action.
+- INTERNAL CHECKS ONLY: Before including a finding, silently verify: (a) for any N, its
+  last digit must be 1–9 to be unrounded — if it ends in 0 it is compliant; (b) a small
+  cell is only N=1 through N=9 — N≥10 is never a small cell; (c) CV must be computed as
+  (SE/Estimate)×100 and must exceed 30% to flag. Do NOT output these checks — apply them
+  silently and only output the final JSON.
 
-MANDATORY PRE-CHECKS — apply these before writing any finding about sample sizes or CVs:
-1. ROUNDING CHECK: For any N you consider flagging, look at its last digit. If the last
-   digit is 0, the number is already rounded — do NOT flag it. Only flag Ns ending in 1–9.
-2. SMALL CELL CHECK: A cell is only a small cell if N is between 1 and 9. Any N ≥ 10 is
-   NOT a small cell. Do not flag N=10, N=20, N=40, or any other value ≥ 10 as a small cell.
-3. CV CHECK: Compute CV = (SE / Estimate) × 100. If CV ≤ 30%, do NOT flag it at any
-   severity. Only flag if your computed CV is strictly greater than 30%.
-
-OUTPUT FORMAT: Respond with ONLY valid JSON — no markdown fences, no preamble:
+OUTPUT FORMAT: Your entire response must be ONLY valid JSON with no text before or after it.
+Do not write any explanation, reasoning, preamble, or commentary — start your response
+with {{ and end with }}. No markdown fences:
 {{
   "status": "PASS",
   "item_count": 0,
