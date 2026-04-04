@@ -87,13 +87,21 @@ specifies its required severity below. Always use exactly the severity stated.
    determination to a human reviewer — make the call yourself. Do NOT flag figures or tables
    that do not use restricted-use data. When applicable, the SOURCE note format is:
    "SOURCE: U.S. Department of Education, National Center for Education Statistics, [Survey Name]"
-6. INTERNAL CONSISTENCY [severity: Review]: Only applies when the manuscript text explicitly
-   attributes a specific numeric value to a particular table or figure (e.g., "as shown in
-   Table 1," "Table 2 shows that," "see Figure 3"). To flag this rule you must confirm ALL
-   THREE: (a) the text explicitly cites a specific table or figure as the source of the value,
-   (b) that exact value can be found in the cited table or figure, AND (c) the value in the
-   text does not match the value in the table or figure. Do NOT flag a number that appears in
-   the text without an explicit reference to a table or figure.
+6. INTERNAL CONSISTENCY [severity: Review for exact mismatches; severity: Low for
+   approximate or derived values]: Two sub-cases apply:
+   (a) EXACT MISMATCH [severity: Review]: The text explicitly cites a specific table or
+   figure (e.g., "as shown in Table 1") and restates a specific value from it, but the
+   value in the text does not match the value in the table. All three conditions must be
+   confirmed: the text names the source table/figure, the value appears in that table/figure,
+   and the two values disagree. Do NOT flag potential ambiguity or uncertainty — only flag
+   a confirmed, clear disagreement between two specific values.
+   (b) APPROXIMATE OR DERIVED VALUE [severity: Low]: The text states an approximate or
+   computed value (e.g., a gap, difference, or summary described as "approximately X") that
+   is derived from table values but does not match exactly. Flag only if the approximation
+   is materially inconsistent with what the table shows.
+   In both cases: do NOT quote the specific numeric value from the manuscript in the flag or
+   recommendation — describe the issue generically (e.g., "an approximate gap described in
+   the text" rather than the actual number).
 7. TABLE CVs [severity: High if CV > 50%; severity: Review if 30% < CV ≤ 50%]: Only applies
    when standard errors are reported in tables. If no standard errors are present, do NOT flag
    this rule. For every estimate/SE pair in a table, calculate CV = (SE / Estimate) × 100.
