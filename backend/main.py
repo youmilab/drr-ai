@@ -182,9 +182,7 @@ CRITICAL INSTRUCTIONS:
   same violation and the same rule, report them as a single finding with the table as the
   location (e.g., "Table 1"). Do NOT create a separate finding for each row or cell.
 - ONE ISSUE PER FINDING: each finding must address exactly one rule and one specific
-  violation. Never combine two separate issues (e.g., a CV concern and a zero-cell concern)
-  into a single finding. If a single row has two different violations, create two separate
-  findings for that row.
+  violation. Never combine two separate issues into a single finding.
 - Location should be as precise as possible (e.g., "Table 2, Row 3" or "Page 4, Paragraph 2"),
   but use the table-level location when consolidating repeated violations across rows.
 - severity "High" = direct disclosure risk; "Review" = likely violation needing human check;
@@ -195,8 +193,19 @@ CRITICAL INSTRUCTIONS:
   author action. Do NOT include findings where the conclusion is that no action is needed,
   no violation exists, or a figure/table is confirmed exempt from a rule. If you verify
   something is compliant or exempt, omit it from the findings entirely — do NOT include it
-  at any severity level (not "Low", not "Review", not "High") for transparency, completeness,
-  or any other reason. Exempt means absent from the findings, period.
+  at any severity level. Exempt means absent from the findings, period.
+- NO-ACTION GATE: Before writing any finding, ask yourself: "Does my recommendation require
+  the author to take action?" If the answer is "no action needed" or "this is already
+  compliant," do NOT include the finding. A finding with "no action needed" must never
+  appear in the output.
+
+MANDATORY PRE-CHECKS — apply these before writing any finding about sample sizes or CVs:
+1. ROUNDING CHECK: For any N you consider flagging, look at its last digit. If the last
+   digit is 0, the number is already rounded — do NOT flag it. Only flag Ns ending in 1–9.
+2. SMALL CELL CHECK: A cell is only a small cell if N is between 1 and 9. Any N ≥ 10 is
+   NOT a small cell. Do not flag N=10, N=20, N=40, or any other value ≥ 10 as a small cell.
+3. CV CHECK: Compute CV = (SE / Estimate) × 100. If CV ≤ 30%, do NOT flag it at any
+   severity. Only flag if your computed CV is strictly greater than 30%.
 
 OUTPUT FORMAT: Respond with ONLY valid JSON — no markdown fences, no preamble:
 {{
