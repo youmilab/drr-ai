@@ -64,11 +64,13 @@ specifies its required severity below. Always use exactly the severity stated.
    numbers (sample sizes, counts) derived from restricted-use data. If no such numbers are
    present, do NOT flag this rule. When applicable: manuscripts must include the statement
    "Numbers are unweighted and rounded to nearest 10" (or nearest 50 for ECLS-B).
-3. PERCENTAGES AND ROUNDING [severity: Low]: Only applies when percentage or proportion
-   values are explicitly present in the manuscript. If none are reported, do NOT flag this
-   rule. When applicable: summary percentages must be rounded to tenths (e.g., 23.4%, max
-   1 decimal place); reference percentages max 2 decimal places; proportions must be rounded
-   to hundredths (e.g., 0.08).
+3. PERCENTAGES AND ROUNDING [severity: Low]: Only applies to values that are explicitly
+   percentages (e.g., 23.4%, values followed by "%" or described as "percent") or proportions
+   (e.g., 0.08, described as a proportion or rate). Do NOT apply this rule to means, scores,
+   test statistics, regression coefficients, standard errors, or any other type of estimate —
+   even if they happen to be decimal numbers. When applicable: summary percentages must be
+   rounded to tenths (max 1 decimal place); reference percentages max 2 decimal places;
+   proportions must be rounded to hundredths (e.g., 0.08).
 4. WEIGHTED/UNWEIGHTED LABELING [severity: Review]: Only applies when the manuscript
    explicitly reports a sample size value (a raw count or N) derived from restricted-use
    data. That N must be clearly labeled as weighted or unweighted. This rule applies ONLY
