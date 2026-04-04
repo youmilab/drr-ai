@@ -59,7 +59,9 @@ specifies its required severity below. Always use exactly the severity stated.
    ROUNDING CHECK: A number ending in 0 is ALWAYS considered rounded — do not flag it,
    do not question it, do not treat it as suspicious. Only flag a count whose last digit
    is 1–9 (e.g., 43, 97, 182). If all counts end in 0, there is NO violation.
-   SMALL CELL: A small cell is ONLY a count of 1–9. N=10 and above is NEVER a small cell.
+   SMALL CELL: A small cell is ONLY a count of 1–9. N=10 and above is NEVER a small cell —
+   this includes N=10, N=20, N=30, N=40, and all larger values. Do not flag any N≥10 as a
+   small cell regardless of how small it appears relative to other cells in the table.
    ECLS-B ONLY: rounding increment is 50 (not a size threshold).
    DEGREES OF FREEDOM: Check df2 in F(df1, df2) and df in t(df) — if df does not end in 0,
    flag as High. Check this in every run without exception.
