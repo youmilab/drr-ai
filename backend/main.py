@@ -355,7 +355,7 @@ async def audit_manuscript(
     try:
         message = client.messages.create(
             model="claude-opus-4-6",
-            max_tokens=2048,
+            max_tokens=4096,
             temperature=0,
             messages=[{"role": "user", "content": prompt}],
         )
