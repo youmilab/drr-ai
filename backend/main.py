@@ -89,9 +89,11 @@ specifies its required severity below. Always use exactly the severity stated.
    must include a note or label indicating whether the Ns are weighted or unweighted.
    If a global rounding statement exists in the manuscript (see Rule 2), in-text sample sizes
    are already covered by that statement — do NOT flag individual in-text Ns for lacking a
-   weighted/unweighted label. This rule applies ONLY to sample size counts (Ns) in tables —
-   it does NOT apply to estimates, means, percentages, standard errors, regression
-   coefficients, or any other statistic, nor to figures showing statistical results.
+   weighted/unweighted label. This rule applies ONLY to sample size counts (Ns) in tables.
+   The following must NEVER be flagged under Rule 4: regression coefficients, R-squared
+   values, standard errors of regression estimates, F-statistics, t-statistics, p-values,
+   means, percentages, or any statistical result reported in text. Regression results
+   reported in text sections do not require a weighted/unweighted disclosure.
 5. SOURCE NOTES [severity: Review]: Only applies to tables and figures that present point
    estimates or raw numbers derived from restricted-use datasets (e.g., tables with cell
    values, figures with data points, bar charts with frequencies or percentages). Read the
@@ -110,6 +112,12 @@ specifies its required severity below. Always use exactly the severity stated.
    confirmed: the text names the source table/figure, the value appears in that table/figure,
    and the two values disagree. Do NOT flag potential ambiguity or uncertainty — only flag
    a confirmed, clear disagreement between two specific values.
+   SUBGROUP SUM CHECK: Before flagging that subgroup counts do not sum to a reported total,
+   compute the actual arithmetic sum of all subgroup values and compare it to the stated
+   total. Account for rounding (subgroup sums may differ from the total by a small amount
+   due to rounding). Only flag if the computed sum is clearly inconsistent with the stated
+   total after accounting for rounding. If the sum matches or is plausibly consistent, do
+   NOT flag this as an inconsistency.
    (b) APPROXIMATE OR DERIVED VALUE [severity: Low]: The text states an approximate or
    computed value (e.g., a gap, difference, or summary described as "approximately X") that
    is derived from table values but may not match exactly. Flag only if the approximation
