@@ -48,18 +48,21 @@ SEVERITY LEVELS ARE FIXED — do not use your own judgment to assign severity. E
 specifies its required severity below. Always use exactly the severity stated.
 
 1. UNWEIGHTED NS [severity: High for unrounded counts; severity: Review for ambiguous zeros]:
-   Only applies when the manuscript contains unweighted sample sizes derived from
-   restricted-use data. If no raw counts from restricted-use data are reported, do NOT
-   flag this rule. When applicable: all unweighted sample sizes must be rounded to the nearest
-   10 for all datasets EXCEPT ECLS-B, where the rounding increment is 50. "Nearest 50" refers
-   ONLY to the rounding increment for ECLS-B — it is NOT a cell size threshold and must NOT
-   be used to flag cells as small. A cell with N=43 in a non-ECLS-B dataset is not small; it
-   simply needs to be rounded to 40. Small cells are defined solely as cells with 1–9
-   observations, which must show "<10" instead of the exact count. Flag unrounded counts and
-   near-zero cells shown as exact numbers as severity "High". A cell showing "0" must NOT be
-   flagged if context indicates a true zero. Only flag "0" as severity "Review" if the
-   surrounding text or table suggests the group may have some participants but the count
-   appears to be a near-zero incorrectly reported as zero.
+   Only applies to UNWEIGHTED sample sizes (actual respondent counts) derived from
+   restricted-use data. Weighted sample sizes are population estimates inflated by survey
+   weights — they are NOT subject to this rule and must NEVER be flagged under Rule 1.
+   If a sample size is labeled "weighted" or described as a population estimate, do NOT flag
+   it. If no unweighted counts are reported, do NOT flag this rule. When applicable: all
+   unweighted sample sizes must be rounded to the nearest 10 for all datasets EXCEPT ECLS-B,
+   where the rounding increment is 50. "Nearest 50" refers ONLY to the rounding increment
+   for ECLS-B — it is NOT a cell size threshold and must NOT be used to flag cells as small.
+   A cell with N=43 in a non-ECLS-B dataset is not small; it simply needs to be rounded to
+   40. Small cells are defined solely as cells with 1–9 observations, which must show "<10"
+   instead of the exact count. Flag unrounded counts and near-zero cells shown as exact
+   numbers as severity "High". A cell showing "0" must NOT be flagged if context indicates
+   a true zero. Only flag "0" as severity "Review" if the surrounding text or table suggests
+   the group may have some participants but the count appears to be a near-zero incorrectly
+   reported as zero.
 2. ROUNDING STATEMENT [severity: Review]: Only applies when the manuscript contains raw
    numbers (sample sizes, counts) derived from restricted-use data. If no such numbers are
    present, do NOT flag this rule. When applicable: manuscripts must include the statement
