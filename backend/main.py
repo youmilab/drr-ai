@@ -61,9 +61,16 @@ specifies its required severity below. Always use exactly the severity stated.
    ONLY to the rounding increment for ECLS-B — it is NOT a cell size threshold. Small cells
    are defined solely as cells with 1–9 observations; any N of 10 or above is NOT a small
    cell and must NOT be flagged as such. Small cells must show "<10" instead of the exact
-   count. Flag unrounded counts as severity "High". A cell showing "0" must NOT be flagged if context indicates a true zero. Only
-   flag "0" as severity "Review" if context suggests the group may have 1–9 participants
-   incorrectly reported as zero.
+   count. Flag unrounded counts as severity "High".
+   DEGREES OF FREEDOM: Also check degrees of freedom in F-statistics and t-statistics
+   (e.g., F(df1, df2) or t(df)). The error degrees of freedom (df2 in F-tests, or df in
+   t-tests) are typically derived from the unweighted sample size minus the number of
+   parameters. If df2 (or df) does not end in 0, it likely embeds an unrounded unweighted
+   sample size and must be flagged as severity "High". Check this in every run without
+   exception — do not skip this check even if other rounding issues are found.
+   A cell showing "0" must NOT be flagged if context indicates a true zero. Only flag "0"
+   as severity "Review" if context suggests the group may have 1–9 participants incorrectly
+   reported as zero.
 2. ROUNDING STATEMENT [severity: Review]: Only applies when the manuscript contains
    unweighted sample sizes derived from restricted-use data. If no such numbers are present,
    do NOT flag this rule. The manuscript must include a statement conveying that sample sizes
@@ -125,7 +132,10 @@ specifies its required severity below. Always use exactly the severity stated.
    uncertain, do NOT flag it. Never flag a CV finding speculatively or as a precaution.
    CVs above 30% require "!" and a table note (severity "Review"); CVs above 50% require
    "‡" and suppression (severity "High"). When flagging, state the exact numeric CV computed
-   and include CV = (SE / Estimate) × 100 in the recommendation. Never flag from text prose.
+   and include CV = (SE / Estimate) × 100 in the recommendation.
+   LOCATION: CV findings must cite the specific table where the SE and estimate appear (e.g.,
+   "Table 2"). Never cite a text section (e.g., "Section 3.2") as the location — if the
+   values are in a table, name the table. Never produce a CV finding from text prose alone.
 """
 
 # ── ICPSR compliance rules ────────────────────────────────────────────────────
@@ -179,6 +189,8 @@ CRITICAL INSTRUCTIONS:
   but use the table-level location when consolidating repeated violations across rows.
 - severity "High" = direct disclosure risk; "Review" = likely violation needing human check;
   "Low" = minor formatting or labeling issue.
+- "item_count" must exactly equal the number of objects in the "findings" array. Count them
+  carefully before writing the JSON — do not leave item_count as 0 if findings is non-empty.
 - ONLY include a finding if there is an actual violation or genuine uncertainty requiring
   author action. Do NOT include findings where the conclusion is that no action is needed,
   no violation exists, or a figure/table is confirmed exempt from a rule. If you verify
@@ -355,6 +367,10 @@ async def audit_manuscript(
             status_code=502,
             detail="Received an unexpected response from the AI. Please try again."
         )
+
+    # Always enforce item_count to match the actual findings array length
+    findings = report.get("findings", [])
+    report["item_count"] = len(findings)
 
     elapsed = time.monotonic() - start_time
     log_metadata(
