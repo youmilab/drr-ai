@@ -54,19 +54,23 @@ specifies its required severity below. Always use exactly the severity stated.
    If a sample size is labeled "weighted" or described as a population estimate, do NOT flag
    it. If no unweighted counts are reported, do NOT flag this rule. When applicable: all
    unweighted sample sizes must be rounded to the nearest 10 for all datasets EXCEPT ECLS-B,
-   where the rounding increment is 50. "Nearest 50" refers ONLY to the rounding increment
-   for ECLS-B — it is NOT a cell size threshold and must NOT be used to flag cells as small.
-   A cell with N=43 in a non-ECLS-B dataset is not small; it simply needs to be rounded to
-   40. Small cells are defined solely as cells with 1–9 observations, which must show "<10"
-   instead of the exact count. Flag unrounded counts and near-zero cells shown as exact
-   numbers as severity "High". A cell showing "0" must NOT be flagged if context indicates
-   a true zero. Only flag "0" as severity "Review" if the surrounding text or table suggests
-   the group may have some participants but the count appears to be a near-zero incorrectly
-   reported as zero.
-2. ROUNDING STATEMENT [severity: Review]: Only applies when the manuscript contains raw
-   numbers (sample sizes, counts) derived from restricted-use data. If no such numbers are
-   present, do NOT flag this rule. When applicable: manuscripts must include the statement
-   "Numbers are unweighted and rounded to nearest 10" (or nearest 50 for ECLS-B).
+   where the rounding increment is 50. A number that already ends in 0 (e.g., 20, 40, 150)
+   is already rounded to the nearest 10 and must NOT be flagged. "Nearest 50" refers ONLY
+   to the rounding increment for ECLS-B — it is NOT a cell size threshold. Small cells are
+   defined solely as cells with 1–9 observations; any N of 10 or above is NOT a small cell
+   and must NOT be flagged as such (e.g., N=20 is compliant and must not be flagged).
+   Small cells must show "<10" instead of the exact count. Flag unrounded counts as severity
+   "High". A cell showing "0" must NOT be flagged if context indicates a true zero. Only
+   flag "0" as severity "Review" if context suggests the group may have 1–9 participants
+   incorrectly reported as zero.
+2. ROUNDING STATEMENT [severity: Review]: Only applies when the manuscript contains
+   unweighted sample sizes derived from restricted-use data. If no such numbers are present,
+   do NOT flag this rule. The manuscript must include a statement conveying that sample sizes
+   are unweighted and rounded to the nearest 10 (or nearest 50 for ECLS-B). The exact wording
+   does not need to match precisely — any paraphrase that clearly communicates both concepts
+   (unweighted AND rounded to nearest 10) is acceptable and must NOT be flagged. Search the
+   entire manuscript for this statement, including footnotes, table notes, and method sections;
+   do not flag if the statement appears anywhere in the manuscript.
 3. PERCENTAGES AND ROUNDING [severity: Low]: Only applies to values that are explicitly
    percentages (e.g., 23.4%, values followed by "%" or described as "percent") or proportions
    (e.g., 0.08, described as a proportion or rate). Do NOT apply this rule to means, scores,
@@ -100,8 +104,10 @@ specifies its required severity below. Always use exactly the severity stated.
    a confirmed, clear disagreement between two specific values.
    (b) APPROXIMATE OR DERIVED VALUE [severity: Low]: The text states an approximate or
    computed value (e.g., a gap, difference, or summary described as "approximately X") that
-   is derived from table values but does not match exactly. Flag only if the approximation
-   is materially inconsistent with what the table shows.
+   is derived from table values but may not match exactly. Flag only if the approximation
+   is materially inconsistent with what the table shows. If the values appear consistent or
+   plausibly consistent, do NOT flag at any severity level — do not flag merely to encourage
+   double-checking when no clear inconsistency is present.
    In both cases: do NOT quote the specific numeric value from the manuscript in the flag or
    recommendation — describe the issue generically (e.g., "an approximate gap described in
    the text" rather than the actual number).
