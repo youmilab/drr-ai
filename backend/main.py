@@ -56,9 +56,14 @@ specifies its required severity below. Always use exactly the severity stated.
    estimate. Point estimates of statistics (means, min, max, scores) do not identify
    individuals and back-calculation is not feasible — they are exempt from this rule entirely.
    Weighted sample sizes (population estimates inflated by survey weights) are also exempt.
-   ROUNDING CHECK: A number ending in 0 is ALWAYS considered rounded — do not flag it,
-   do not question it, do not treat it as suspicious. Only flag a count whose last digit
-   is 1–9 (e.g., 43, 97, 182). If all counts end in 0, there is NO violation.
+   ROUNDING CHECK: To determine whether a number ends in 0, look only at the LAST digit of
+   the number (ignoring commas and formatting). Examples: 410 → last digit 0 ✓; 2,110 → last
+   digit 0 ✓; 5,200 → last digit 0 ✓; 590 → last digit 0 ✓; 10,020 → last digit 0 ✓.
+   A number whose last digit is 0 is ALWAYS considered rounded — do not flag it, do not
+   question it, do not treat it as suspicious. Only flag a count whose last digit is 1–9
+   (e.g., 43, 97, 182, 2,113, 5,847). If all counts end in 0, there is NO violation.
+   BEFORE FLAGGING ANY NUMBER: write out its last digit. If that digit is 0, stop — do not
+   flag. Only proceed to flag if the last digit is confirmed to be 1–9.
    SMALL CELL: A small cell is ONLY a count of 1–9. N=10 and above is NEVER a small cell —
    this includes N=10, N=20, N=30, N=40, and all larger values. Do not flag any N≥10 as a
    small cell regardless of how small it appears relative to other cells in the table.
@@ -72,11 +77,15 @@ specifies its required severity below. Always use exactly the severity stated.
    do NOT flag this rule. The manuscript must include a statement conveying that sample sizes
    are unweighted and rounded to the nearest 10 (or nearest 50 for ECLS-B). The exact wording
    does not need to match precisely — any paraphrase that clearly communicates both concepts
-   (unweighted AND rounded to nearest 10) is acceptable and must NOT be flagged. A single
-   global statement anywhere in the manuscript (e.g., in the methods section, a footnote, or
-   a table note) is sufficient to cover all sample sizes throughout — authors are NOT required
-   to repeat "unweighted" next to every individual N in the text. Search the entire manuscript;
-   do not flag if the statement appears anywhere.
+   (unweighted AND rounded to nearest 10) is acceptable and must NOT be flagged. Explicitly
+   acceptable phrasings include (but are not limited to): "rounded to nearest tens," "rounded
+   to the nearest 10," "rounded to the nearest ten," "rounded to the nearest 10s," "rounded
+   to the nearest tens," "unweighted sample sizes are rounded to the nearest 10," and any
+   similar wording conveying the same meaning. Do NOT flag any of these as non-standard.
+   A single global statement anywhere in the manuscript (e.g., in the methods section, a
+   footnote, or a table note) is sufficient to cover all sample sizes throughout — authors
+   are NOT required to repeat "unweighted" next to every individual N in the text. Search
+   the entire manuscript; do not flag if the statement appears anywhere.
 3. PERCENTAGES AND ROUNDING [severity: Low]: Only applies to values that are explicitly
    percentages (e.g., 23.4%, values followed by "%" or described as "percent") or proportions
    (e.g., 0.08, described as a proportion or rate). Do NOT apply this rule to means, scores,
