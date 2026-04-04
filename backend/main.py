@@ -371,10 +371,12 @@ async def audit_manuscript(
         raw = raw.strip()
     try:
         report = json.loads(raw)
-    except json.JSONDecodeError:
+    except json.JSONDecodeError as e:
+        import logging
+        logging.error("JSON parse error: %s\nRaw response (first 500 chars): %s", e, raw[:500])
         raise HTTPException(
             status_code=502,
-            detail="Received an unexpected response from the AI. Please try again."
+            detail=f"Received an unexpected response from the AI. Parse error: {e}. Response preview: {raw[:200]}"
         )
 
     # Always enforce item_count to match the actual findings array length
