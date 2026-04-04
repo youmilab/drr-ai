@@ -96,12 +96,14 @@ specifies its required severity below. Always use exactly the severity stated.
    the text without an explicit reference to a table or figure.
 7. TABLE CVs [severity: High if CV > 50%; severity: Review if 30% < CV ≤ 50%]: Only applies
    when standard errors are reported in tables. If no standard errors are present, do NOT flag
-   this rule. For every estimate/SE pair in a table, you MUST calculate CV = (SE / Estimate)
-   × 100 numerically before deciding whether to flag. If the calculated CV is 30% or below,
-   produce NO finding at any severity level. CVs above 30% require "!" and a table note
-   (severity "Review"); CVs above 50% require "‡" and suppression (severity "High"). When
-   flagging, report the exact computed CV value and include the definition
-   CV = (SE / Estimate) × 100 in the recommendation. Never flag CVs from text prose.
+   this rule. For every estimate/SE pair in a table, calculate CV = (SE / Estimate) × 100.
+   STRICT THRESHOLD RULE: you may only produce a CV finding if the computed CV is strictly
+   greater than 30%. If CV ≤ 30%, that row is fully compliant — omit it from findings with
+   no exception. If you are uncertain whether CV exceeds 30%, compute it again; if still
+   uncertain, do NOT flag it. Never flag a CV finding speculatively or as a precaution.
+   CVs above 30% require "!" and a table note (severity "Review"); CVs above 50% require
+   "‡" and suppression (severity "High"). When flagging, state the exact numeric CV computed
+   and include CV = (SE / Estimate) × 100 in the recommendation. Never flag from text prose.
 """
 
 # ── ICPSR compliance rules ────────────────────────────────────────────────────
