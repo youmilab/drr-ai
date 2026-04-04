@@ -177,6 +177,10 @@ CRITICAL INSTRUCTIONS:
   location (e.g., "Table 1"). Do NOT create a separate finding for each row or cell.
 - ONE ISSUE PER FINDING: each finding must address exactly one rule and one specific
   violation. Never combine two separate issues into a single finding.
+- SAME SOURCE, SAME FINDING: if two or more violations trace back to the same specific
+  value, expression, or statistic in the manuscript (e.g., both concerns stem from the
+  same F-statistic, the same table cell, or the same sentence), consolidate them into one
+  finding. Do not create two findings that point to the same source.
 - Location should be as precise as possible (e.g., "Table 2, Row 3" or "Page 4, Paragraph 2"),
   but use the table-level location when consolidating repeated violations across rows.
 - severity "High" = direct disclosure risk; "Review" = likely violation needing human check;
