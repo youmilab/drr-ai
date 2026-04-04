@@ -370,9 +370,26 @@ async def audit_manuscript(
             detail=f"Received an unexpected response from the AI. Parse error: {e}. Response preview: {raw[:200]}"
         )
 
-    # Always enforce item_count to match the actual findings array length
-    findings = report.get("findings", [])
+    # Remove findings whose recommendation indicates no action is needed
+    NO_ACTION_PHRASES = (
+        "no action needed", "no additional action", "no further action",
+        "no changes needed", "no changes required", "no correction needed",
+        "already compliant", "no issue", "compliant",
+    )
+    findings = [
+        f for f in report.get("findings", [])
+        if not any(phrase in f.get("recommendation", "").lower() for phrase in NO_ACTION_PHRASES)
+    ]
+    report["findings"] = findings
     report["item_count"] = len(findings)
+
+    # Recompute status based on filtered findings
+    if not findings:
+        report["status"] = "PASS"
+    elif any(f.get("severity") == "High" for f in findings):
+        report["status"] = "HIGH RISK"
+    else:
+        report["status"] = "REVIEW NEEDED"
 
     elapsed = time.monotonic() - start_time
     log_metadata(
