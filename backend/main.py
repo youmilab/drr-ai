@@ -48,29 +48,23 @@ SEVERITY LEVELS ARE FIXED — do not use your own judgment to assign severity. E
 specifies its required severity below. Always use exactly the severity stated.
 
 1. UNWEIGHTED NS [severity: High for unrounded counts; severity: Review for ambiguous zeros]:
-   Only applies to UNWEIGHTED sample sizes (actual respondent counts) derived from
-   restricted-use data. Weighted sample sizes are population estimates inflated by survey
-   weights — they are NOT subject to this rule and must NEVER be flagged under Rule 1.
-   If a sample size is labeled "weighted" or described as a population estimate, do NOT flag
-   it. If no unweighted counts are reported, do NOT flag this rule. When applicable: all
-   unweighted sample sizes must be rounded to the nearest 10 for all datasets EXCEPT ECLS-B,
-   where the rounding increment is 50. BEFORE flagging any N: check whether it ends in 0.
-   If the number ends in 0 (e.g., 10, 20, 40, 60, 100, 150, 200), it is already rounded to
-   the nearest 10 — it is compliant and must NOT be flagged under any circumstance. Only
-   flag Ns whose last digit is 1–9 (e.g., 43, 97, 182) as unrounded. "Nearest 50" refers
-   ONLY to the rounding increment for ECLS-B — it is NOT a cell size threshold. Small cells
-   are defined solely as cells with 1–9 observations; any N of 10 or above is NOT a small
-   cell and must NOT be flagged as such. Small cells must show "<10" instead of the exact
-   count. Flag unrounded counts as severity "High".
-   DEGREES OF FREEDOM: Also check degrees of freedom in F-statistics and t-statistics
-   (e.g., F(df1, df2) or t(df)). The error degrees of freedom (df2 in F-tests, or df in
-   t-tests) are typically derived from the unweighted sample size minus the number of
-   parameters. If df2 (or df) does not end in 0, it likely embeds an unrounded unweighted
-   sample size and must be flagged as severity "High". Check this in every run without
-   exception — do not skip this check even if other rounding issues are found.
-   A cell showing "0" must NOT be flagged if context indicates a true zero. Only flag "0"
-   as severity "Review" if context suggests the group may have 1–9 participants incorrectly
-   reported as zero.
+   WHAT THIS RULE COVERS: Only unweighted sample size COUNTS — values explicitly labeled
+   as N, n, sample size, or count of respondents. This rule does NOT apply to any of the
+   following, which must never be flagged under Rule 1: means, standard deviations, standard
+   errors, test scores, IRT scores, scale scores, min/max values, percentages, proportions,
+   regression coefficients, F-statistics, t-statistics, p-values, or any other statistical
+   estimate. Point estimates of statistics (means, min, max, scores) do not identify
+   individuals and back-calculation is not feasible — they are exempt from this rule entirely.
+   Weighted sample sizes (population estimates inflated by survey weights) are also exempt.
+   ROUNDING CHECK: A number ending in 0 is ALWAYS considered rounded — do not flag it,
+   do not question it, do not treat it as suspicious. Only flag a count whose last digit
+   is 1–9 (e.g., 43, 97, 182). If all counts end in 0, there is NO violation.
+   SMALL CELL: A small cell is ONLY a count of 1–9. N=10 and above is NEVER a small cell.
+   ECLS-B ONLY: rounding increment is 50 (not a size threshold).
+   DEGREES OF FREEDOM: Check df2 in F(df1, df2) and df in t(df) — if df does not end in 0,
+   flag as High. Check this in every run without exception.
+   ZERO CELLS: "0" is correct for true zeros. Flag "0" as Review only if context suggests
+   1–9 participants may be present but incorrectly reported as zero.
 2. ROUNDING STATEMENT [severity: Review]: Only applies when the manuscript contains
    unweighted sample sizes derived from restricted-use data. If no such numbers are present,
    do NOT flag this rule. The manuscript must include a statement conveying that sample sizes
