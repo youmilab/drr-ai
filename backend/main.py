@@ -48,32 +48,29 @@ SEVERITY LEVELS ARE FIXED — do not use your own judgment to assign severity. E
 specifies its required severity below. Always use exactly the severity stated.
 
 STEP 0 — MANDATORY TRIAGE BEFORE ANY RULE IS APPLIED:
-Before checking any rule, scan the full manuscript and build a list of which tables and
-figures use IES/NCES restricted-use data. Only items on that list may be flagged.
+Before applying any rule, classify every table and figure in the manuscript as either
+IN-SCOPE (IES/NCES restricted-use data) or OUT-OF-SCOPE (exempt). Only IN-SCOPE items
+may be flagged. Never flag an OUT-OF-SCOPE item under any rule.
 
-A table or figure uses IES/NCES restricted-use data IF AND ONLY IF at least one of
-these conditions is true:
-  (A) It has a SOURCE note that names "U.S. Department of Education, National Center
-      for Education Statistics" or a known IES/NCES dataset (NAEP, ECLS-K, ECLS-B,
-      ELS:2002, HSLS, SSES, NSCG, or similar).
-  (B) The section of text that introduces the table explicitly states that the data
-      come directly from an IES or NCES restricted-use file (e.g., "we use the NAEP
-      restricted-use data", "data come from the ECLS-K restricted-use file").
+CLASSIFICATION RULES — apply in this exact order:
 
-A table or figure does NOT use IES/NCES restricted-use data — and is FULLY EXEMPT —
-if any of these conditions is true:
-  (X) It has no SOURCE note AND the surrounding text attributes the data to a
-      published study, state program, or non-IES/NCES source.
-  (Y) The surrounding text says the data come from a prior publication (e.g.,
-      "data from Wong et al. (2007)", "we use data from Smith et al. (2015)").
-  (Z) The data are described as state administrative records, district data,
-      program records, or any source not identified as an IES/NCES restricted-use file.
+  RULE A (SOURCE note present → IN-SCOPE): A table or figure is IN-SCOPE if it has a
+  SOURCE note that names "U.S. Department of Education, National Center for Education
+  Statistics" or a known IES/NCES dataset (NAEP, ECLS-K, ECLS-B, ELS, HSLS, SSES,
+  NSCG, or similar). This is the strongest signal — apply rules to this item.
 
-DEFAULT RULE: When in doubt, treat the table or figure as EXEMPT. Do not flag it
-unless condition (A) or (B) is clearly satisfied.
+  RULE B (SOURCE note absent → OUT-OF-SCOPE by default): A table or figure with NO
+  SOURCE note is OUT-OF-SCOPE and EXEMPT from all rules, UNLESS the sentence or heading
+  that directly introduces the table (not a distant earlier paragraph) explicitly names
+  a known IES/NCES restricted-use dataset by its acronym (NAEP, ECLS, ELS, HSLS, etc.).
+  If the introducing sentence cites a published paper (e.g., "Wong et al., 2007"),
+  names a state program, or uses any data source other than a named IES/NCES dataset,
+  the table is OUT-OF-SCOPE — do not flag it under any rule.
 
-Apply ALL rules below ONLY to the tables and figures identified as IES/NCES
-restricted-use in this triage step. Ignore all other content entirely.
+  RULE C (default): When the data source cannot be clearly determined, treat the item
+  as OUT-OF-SCOPE. Never flag an item under uncertainty.
+
+Apply ALL rules below ONLY to IN-SCOPE items. Ignore OUT-OF-SCOPE items entirely.
 
 1. UNWEIGHTED NS [severity: High for unrounded counts; severity: Review for ambiguous zeros]:
    WHAT THIS RULE COVERS: Only unweighted counts of individual respondents or participants
@@ -345,10 +342,21 @@ OR if issues found:
       "location": "Table 2, Header Row",
       "flag": "An unrounded unweighted sample size was found",
       "rule": "IES requires unweighted sample sizes rounded to the nearest 10",
-      "recommendation": "Round the N to the nearest 10"
+      "recommendation": "Round the N to the nearest 10",
+      "rule1_last_digit": "7"
     }}
   ]
 }}
+
+RULE 1 VERIFICATION FIELD: Every finding with severity "High" that cites Rule 1
+(unrounded sample size) MUST include a "rule1_last_digit" field containing ONLY the
+last digit (0–9) of the exact integer count being flagged. Compute this digit carefully:
+look at the integer, ignore any commas or formatting, and write only its final digit.
+  Examples: 43 → "3", 120 → "0", 510 → "0", 2113 → "3", 80 → "0", 57 → "7"
+If the last digit is "0", you must NOT include the finding — a count ending in 0 is
+compliant. Remove the finding before writing the JSON.
+For non-Rule-1 findings (Review, Low, or any finding not about unrounded counts),
+omit the "rule1_last_digit" field entirely.
 
 "status" rules:
 - "PASS" if findings is empty
@@ -500,6 +508,18 @@ async def audit_manuscript(
             detail=f"Received an unexpected response from the AI. Parse error: {e}. Response preview: {raw[:200]}"
         )
 
+    # Remove Rule 1 High findings where the model's own last-digit check shows the count ends in 0
+    def _rule1_last_digit_compliant(finding: dict) -> bool:
+        """Returns True if the finding should be dropped because the flagged count ends in 0."""
+        if finding.get("severity") != "High":
+            return False
+        last_digit = str(finding.get("rule1_last_digit", "")).strip()
+        return last_digit == "0"
+
+    findings_raw = report.get("findings", [])
+    findings_raw = [f for f in findings_raw if not _rule1_last_digit_compliant(f)]
+    report["findings"] = findings_raw
+
     # Remove findings that indicate no action is needed, checking all text fields
     NO_ACTION_PHRASES = (
         "no action needed", "no additional action", "no further action",
@@ -518,7 +538,7 @@ async def audit_manuscript(
             or finding.get("recommendation", "").strip().upper() == "N/A"
             or finding.get("rule", "").strip().upper() == "N/A"
         )
-    findings = [f for f in report.get("findings", []) if not _has_no_action(f)]
+    findings = [f for f in findings_raw if not _has_no_action(f)]
     report["findings"] = findings
     report["item_count"] = len(findings)
 
