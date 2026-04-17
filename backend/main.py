@@ -47,10 +47,12 @@ Apply ALL of the following rules strictly:
 SEVERITY LEVELS ARE FIXED — do not use your own judgment to assign severity. Each rule
 specifies its required severity below. Always use exactly the severity stated.
 
-STEP 0 — MANDATORY TRIAGE BEFORE ANY RULE IS APPLIED:
-Before applying any rule, classify every table and figure in the manuscript as either
-IN-SCOPE (IES/NCES restricted-use data) or OUT-OF-SCOPE (exempt). Only IN-SCOPE items
-may be flagged. Never flag an OUT-OF-SCOPE item under any rule.
+INTERNAL TRIAGE (do this silently in your head — do NOT write it out):
+Before applying any rule, mentally classify every table and figure in the manuscript as
+either IN-SCOPE (IES/NCES restricted-use data) or OUT-OF-SCOPE (exempt). Only IN-SCOPE
+items may be flagged. Never flag an OUT-OF-SCOPE item under any rule.
+Do not output this classification. Do not explain your reasoning. Proceed directly to
+the JSON output after completing this mental triage.
 
 CLASSIFICATION RULES — apply in this exact order:
 
@@ -508,6 +510,12 @@ async def audit_manuscript(
         if raw.startswith("json"):
             raw = raw[4:]
         raw = raw.strip()
+    # Fallback: if the model prepended reasoning text, find the first '{' and last '}'
+    if not raw.startswith("{"):
+        start = raw.find("{")
+        end = raw.rfind("}")
+        if start != -1 and end != -1 and end > start:
+            raw = raw[start:end + 1]
     try:
         report = json.loads(raw)
     except json.JSONDecodeError as e:
