@@ -57,13 +57,24 @@ specifies its required severity below. Always use exactly the severity stated.
    individuals and back-calculation is not feasible — they are exempt from this rule entirely.
    Weighted sample sizes (population estimates inflated by survey weights) are also exempt.
    ROUNDING CHECK: To determine whether a number ends in 0, look only at the LAST digit of
-   the number (ignoring commas and formatting). Examples: 410 → last digit 0 ✓; 2,110 → last
-   digit 0 ✓; 5,200 → last digit 0 ✓; 590 → last digit 0 ✓; 10,020 → last digit 0 ✓.
+   the integer portion of the number (ignoring commas, spaces, and any decimal portion).
+   Examples of COMPLIANT counts (last digit = 0, do NOT flag):
+     410 → last digit 0 ✓
+     4130 → last digit 0 ✓
+     1540 → last digit 0 ✓
+     2,110 → last digit 0 ✓
+     5,200 → last digit 0 ✓
+     590 → last digit 0 ✓
+     10,020 → last digit 0 ✓
+     8,530 → last digit 0 ✓
+   Examples of NON-COMPLIANT counts (last digit ≠ 0, flag these):
+     43, 97, 182, 2,113, 5,847, 4,131.
    A number whose last digit is 0 is ALWAYS considered rounded — do not flag it, do not
-   question it, do not treat it as suspicious. Only flag a count whose last digit is 1–9
-   (e.g., 43, 97, 182, 2,113, 5,847). If all counts end in 0, there is NO violation.
-   BEFORE FLAGGING ANY NUMBER: write out its last digit. If that digit is 0, stop — do not
-   flag. Only proceed to flag if the last digit is confirmed to be 1–9.
+   question it, do not treat it as suspicious. Only flag a count whose last digit is 1–9.
+   If all counts end in 0, there is NO Rule 1 violation.
+   MANDATORY PRE-FLAG CHECK: Before including any Rule 1 finding, identify the exact
+   number being flagged and confirm its last digit is 1–9. If the last digit is 0, discard
+   the finding entirely — do not include it at any severity level.
    SMALL CELL: A small cell is ONLY a count of 1–9. N=10 and above is NEVER a small cell —
    this includes N=10, N=20, N=30, N=40, and all larger values. Do not flag any N≥10 as a
    small cell regardless of how small it appears relative to other cells in the table.
@@ -86,6 +97,11 @@ specifies its required severity below. Always use exactly the severity stated.
    footnote, or a table note) is sufficient to cover all sample sizes throughout — authors
    are NOT required to repeat "unweighted" next to every individual N in the text. Search
    the entire manuscript; do not flag if the statement appears anywhere.
+   CRITICAL: Rule 2 must NOT be triggered solely because a percentage appears alongside a
+   rounded count. If the reported count already ends in 0 (i.e., it is compliant under
+   Rule 1), then a co-located percentage does NOT make the rounding statement inconsistent.
+   Only flag Rule 2 if the rounding statement is genuinely absent or contradicted by an
+   actually unrounded count (last digit 1–9).
 3. PERCENTAGES AND ROUNDING [severity: Low]: Only applies to values that are explicitly
    percentages (e.g., 23.4%, values followed by "%" or described as "percent") or proportions
    (e.g., 0.08, described as a proportion or rate). Do NOT apply this rule to means, scores,
@@ -213,11 +229,14 @@ CRITICAL INSTRUCTIONS:
   at any severity level. Exempt means absent from the findings, period.
 - NO-ACTION GATE: Do not include any finding whose recommendation would be "no action
   needed" or "already compliant." Every finding must require the author to take action.
-- INTERNAL CHECKS ONLY: Before including a finding, silently verify: (a) for any N, its
-  last digit must be 1–9 to be unrounded — if it ends in 0 it is compliant; (b) a small
-  cell is only N=1 through N=9 — N≥10 is never a small cell; (c) CV must be computed as
-  (SE/Estimate)×100 and must exceed 30% to flag. Do NOT output these checks — apply them
-  silently and only output the final JSON.
+- INTERNAL CHECKS ONLY: Before including a finding, verify: (a) for any N flagged under
+  Rule 1, identify the exact integer and confirm its last digit is 1–9 — if the last digit
+  is 0 the count is compliant, discard the finding; (b) Rule 2 must not be triggered by a
+  compliant (last-digit-0) count appearing alongside a percentage — only flag Rule 2 for a
+  genuinely absent or contradicted rounding statement; (c) a small cell is only N=1 through
+  N=9 — N≥10 is never a small cell; (d) CV must be computed as (SE/Estimate)×100 and must
+  exceed 30% to flag. Apply these checks before writing the final JSON — omit any finding
+  that fails them.
 
 OUTPUT FORMAT: Your entire response must be ONLY valid JSON with no text before or after it.
 Do not write any explanation, reasoning, preamble, or commentary — start your response
