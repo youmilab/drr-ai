@@ -133,11 +133,18 @@ specifies its required severity below. Always use exactly the severity stated.
    estimates or raw numbers derived from restricted-use datasets (e.g., tables with cell
    values, figures with data points, bar charts with frequencies or percentages). Read the
    figure caption, title, and surrounding text to determine whether it contains such values.
-   If the text describes a figure as a causal diagram, DAG, directed acyclic graph,
-   theoretical framework, conceptual model, or any figure with no numeric data values, you
-   must conclude it is exempt and omit it from findings entirely. Do NOT defer this
-   determination to a human reviewer — make the call yourself. Do NOT flag figures or tables
-   that do not use restricted-use data. When applicable, the SOURCE note format is:
+   EXEMPT FIGURES — omit entirely from findings, no exception:
+   Any figure described as or visually identifiable as a causal diagram, DAG, directed
+   acyclic graph, path diagram, theoretical framework, conceptual model, flow chart, or
+   any figure that contains no numeric data values is FULLY EXEMPT from Rule 5. This
+   exemption is unconditional — it applies even if the figure caption or surrounding text
+   mentions a restricted-use dataset by name, even if the figure was motivated by or
+   illustrates a concept from that dataset, and even if the figure appears in a paper that
+   uses restricted-use data. The sole criterion is whether the figure itself displays numeric
+   data values. If it does not, it is exempt. Do NOT flag it, do NOT defer to a human
+   reviewer, do NOT add a conditional note. Omit it from the findings entirely.
+   Do NOT flag figures or tables that do not use restricted-use data. When applicable, the
+   SOURCE note format is:
    "SOURCE: U.S. Department of Education, National Center for Education Statistics, [Survey Name]"
 6. INTERNAL CONSISTENCY [severity: Review for exact mismatches; severity: Low for
    approximate or derived values]: Two sub-cases apply:
