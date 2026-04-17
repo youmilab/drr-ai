@@ -237,8 +237,11 @@ CRITICAL INSTRUCTIONS:
   no violation exists, or a figure/table is confirmed exempt from a rule. If you verify
   something is compliant or exempt, omit it from the findings entirely — do NOT include it
   at any severity level. Exempt means absent from the findings, period.
-- NO-ACTION GATE: Do not include any finding whose recommendation would be "no action
-  needed" or "already compliant." Every finding must require the author to take action.
+- NO-ACTION GATE: If you reason through a potential issue and conclude it is not a
+  violation, do NOT include it in the findings array at all — not even with "N/A" fields
+  or a note saying "discarding this finding." A finding that you discard must be completely
+  absent from the JSON output. Every object in the findings array must represent a genuine
+  violation requiring author action.
 - INTERNAL CHECKS ONLY: Before including a finding, verify: (a) for any N flagged under
   Rule 1, identify the exact integer and confirm its last digit is 1–9 — if the last digit
   is 0 the count is compliant, discard the finding; (b) Rule 2 must not be triggered by a
@@ -423,16 +426,25 @@ async def audit_manuscript(
             detail=f"Received an unexpected response from the AI. Parse error: {e}. Response preview: {raw[:200]}"
         )
 
-    # Remove findings whose recommendation indicates no action is needed
+    # Remove findings that indicate no action is needed, checking all text fields
     NO_ACTION_PHRASES = (
         "no action needed", "no additional action", "no further action",
         "no changes needed", "no changes required", "no correction needed",
-        "already compliant", "no issue", "compliant",
+        "already compliant", "no issue", "discarding this finding",
+        "not a rule", "not a violation",
     )
-    findings = [
-        f for f in report.get("findings", [])
-        if not any(phrase in f.get("recommendation", "").lower() for phrase in NO_ACTION_PHRASES)
-    ]
+    def _has_no_action(finding: dict) -> bool:
+        combined = " ".join([
+            finding.get("recommendation", ""),
+            finding.get("flag", ""),
+            finding.get("rule", ""),
+        ]).lower()
+        return (
+            any(phrase in combined for phrase in NO_ACTION_PHRASES)
+            or finding.get("recommendation", "").strip().upper() == "N/A"
+            or finding.get("rule", "").strip().upper() == "N/A"
+        )
+    findings = [f for f in report.get("findings", []) if not _has_no_action(f)]
     report["findings"] = findings
     report["item_count"] = len(findings)
 
