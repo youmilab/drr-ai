@@ -70,6 +70,16 @@ CLASSIFICATION RULES — apply in this exact order:
   RULE C (default): When the data source cannot be clearly determined, treat the item
   as OUT-OF-SCOPE. Never flag an item under uncertainty.
 
+CERTAINTY REQUIREMENT: You must be 100% certain a table uses IES/NCES restricted-use
+data before flagging it. If you have any doubt, classify it as OUT-OF-SCOPE.
+CITATION SIGNAL: If you identify a published paper citation (e.g., "Author et al.,
+YYYY" or "(YYYY)") as the data source for a table — even alongside words like
+"restricted-use" or "program data" — that table is OUT-OF-SCOPE. Published papers
+are not IES/NCES restricted-use files.
+SELF-CHECK BEFORE FLAGGING: For every finding you are about to write, ask: "Can I
+identify a SOURCE note or direct dataset name (NAEP, ECLS, etc.) that confirms this
+table uses IES/NCES restricted-use data?" If the answer is no, discard the finding.
+
 Apply ALL rules below ONLY to IN-SCOPE items. Ignore OUT-OF-SCOPE items entirely.
 
 1. UNWEIGHTED NS [severity: High for unrounded counts; severity: Review for ambiguous zeros]:
@@ -508,6 +518,8 @@ async def audit_manuscript(
             detail=f"Received an unexpected response from the AI. Parse error: {e}. Response preview: {raw[:200]}"
         )
 
+    import re
+
     # Remove Rule 1 High findings where the model's own last-digit check shows the count ends in 0
     def _rule1_last_digit_compliant(finding: dict) -> bool:
         """Returns True if the finding should be dropped because the flagged count ends in 0."""
@@ -516,8 +528,38 @@ async def audit_manuscript(
         last_digit = str(finding.get("rule1_last_digit", "")).strip()
         return last_digit == "0"
 
+    # Remove findings that reveal the data source is non-IES/NCES:
+    # (a) the model cites a published paper as the data source, or
+    # (b) the recommendation itself expresses uncertainty about whether data is IES/NCES
+    _CITATION_PATTERN = re.compile(r'\bet\s+al\..*?\d{4}|\(\s*\d{4}\s*\)', re.IGNORECASE)
+    _NON_IES_SCOPE_PHRASES = (
+        "if the data are from a non",
+        "if the data are from an ies",
+        "if this is from a non",
+        "if this uses restricted",
+        "if the pre-k data",
+        "clarify the data source",
+        "non-nces source",
+        "non-ies source",
+    )
+
+    def _is_non_ies_data(finding: dict) -> bool:
+        combined = " ".join([
+            finding.get("flag", ""),
+            finding.get("rule", ""),
+            finding.get("recommendation", ""),
+        ]).lower()
+        # Drop if the recommendation hedges about whether data is IES/NCES
+        if any(phrase in combined for phrase in _NON_IES_SCOPE_PHRASES):
+            return True
+        # Drop if the flag or recommendation cites a published paper (et al. + year)
+        if _CITATION_PATTERN.search(combined):
+            return True
+        return False
+
     findings_raw = report.get("findings", [])
     findings_raw = [f for f in findings_raw if not _rule1_last_digit_compliant(f)]
+    findings_raw = [f for f in findings_raw if not _is_non_ies_data(f)]
     report["findings"] = findings_raw
 
     # Remove findings that indicate no action is needed, checking all text fields
