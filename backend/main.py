@@ -102,19 +102,23 @@ specifies its required severity below. Always use exactly the severity stated.
    Rule 1), then a co-located percentage does NOT make the rounding statement inconsistent.
    Only flag Rule 2 if the rounding statement is genuinely absent or contradicted by an
    actually unrounded count (last digit 1–9).
-3. PERCENTAGES AND ROUNDING [severity: Low]: Only applies to values that are explicitly
-   percentages (e.g., 23.4%, values followed by "%" or described as "percent") or proportions
-   (e.g., 0.08, described as a proportion or rate). Do NOT apply this rule to means, scores,
-   test statistics, regression coefficients, standard errors, or any other type of estimate —
-   even if they happen to be decimal numbers. When applicable: summary percentages must be
-   rounded to tenths (max 1 decimal place); reference percentages max 2 decimal places;
-   proportions must be rounded to hundredths (e.g., 0.08).
-   BACK-CALCULATION CONCERN: Do NOT flag a percentage as enabling back-calculation when the
-   accompanying sample size count is already rounded (i.e., ends in 0). A rounded count
-   divided by a percentage yields only an approximation of the original count, not the exact
-   pre-rounding value — back-calculation is not feasible in this case and must not be flagged.
-   Only raise a back-calculation concern when the count used to derive the percentage is itself
-   exact (unrounded, last digit 1–9).
+3. PERCENTAGES AND ROUNDING [severity: Low]: This rule covers ONLY the number of decimal
+   places used in a percentage or proportion. It has nothing to do with back-calculation.
+   Applies to values explicitly labeled as percentages (followed by "%" or described as
+   "percent") or proportions (described as a proportion or rate). Do NOT apply to means,
+   scores, test statistics, regression coefficients, standard errors, or any other estimate.
+   Precision requirements: summary percentages → max 1 decimal place; reference percentages
+   → max 2 decimal places; proportions → rounded to hundredths (e.g., 0.08).
+   BACK-CALCULATION IS NOT PART OF THIS RULE. Do NOT flag any percentage under Rule 3 for
+   back-calculation risk. Back-calculation is not a concern under IES rules unless a
+   percentage or proportion could arithmetically reveal a small-cell count of 1–9 from an
+   exact (unrounded) base. When the base count ends in 0 (rounded), dividing it by any
+   percentage yields only an approximation — not the exact pre-rounding value — so
+   back-calculation is impossible. Never flag a percentage as a back-calculation risk when
+   the base count is rounded. In practice, IES back-calculation concerns arise only for
+   percentages of very small subgroups where the base is exact and small (e.g., a group of
+   exactly 12 where 8.3% would reveal exactly 1 person). They do not arise for large
+   rounded base counts like 4130.
 4. WEIGHTED/UNWEIGHTED LABELING [severity: Review]: Only applies to TABLES that report
    sample size values (raw counts or Ns) derived from restricted-use data. Each such table
    must include a note or label indicating whether the Ns are weighted or unweighted.
@@ -239,10 +243,11 @@ CRITICAL INSTRUCTIONS:
   Rule 1, identify the exact integer and confirm its last digit is 1–9 — if the last digit
   is 0 the count is compliant, discard the finding; (b) Rule 2 must not be triggered by a
   compliant (last-digit-0) count appearing alongside a percentage — only flag Rule 2 for a
-  genuinely absent or contradicted rounding statement; (c) a small cell is only N=1 through
-  N=9 — N≥10 is never a small cell; (d) CV must be computed as (SE/Estimate)×100 and must
-  exceed 30% to flag. Apply these checks before writing the final JSON — omit any finding
-  that fails them.
+  genuinely absent or contradicted rounding statement; (c) Rule 3 is about decimal precision
+  only — never flag a percentage for back-calculation risk, which is not part of Rule 3;
+  (d) a small cell is only N=1 through N=9 — N≥10 is never a small cell; (e) CV must be
+  computed as (SE/Estimate)×100 and must exceed 30% to flag. Apply these checks before
+  writing the final JSON — omit any finding that fails them.
 
 OUTPUT FORMAT: Your entire response must be ONLY valid JSON with no text before or after it.
 Do not write any explanation, reasoning, preamble, or commentary — start your response
