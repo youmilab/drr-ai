@@ -146,6 +146,15 @@ specifies its required severity below. Always use exactly the severity stated.
    Do NOT flag figures or tables that do not use restricted-use data. When applicable, the
    SOURCE note format is:
    "SOURCE: U.S. Department of Education, National Center for Education Statistics, [Survey Name]"
+   AGENCY NAME CHECK: Scan every SOURCE note in the manuscript — including those in tables
+   and figures that appear late in the document or in appendices — for the correct agency
+   name. The only correct form is "National Center for Education Statistics". Any variant
+   is wrong and must be flagged:
+     - "National Center on Education Statistics" → wrong preposition ("on" not "for")
+     - "National Center on Educational Statistics" → wrong preposition AND wrong adjective
+     - "National Center for Educational Statistics" → wrong adjective ("Educational" not "Education")
+     - Any other deviation from the exact phrase "National Center for Education Statistics"
+   Flag each table or figure with an incorrect agency name as a separate finding.
 6. INTERNAL CONSISTENCY [severity: Review for exact mismatches; severity: Low for
    approximate or derived values]: Two sub-cases apply:
    (a) EXACT MISMATCH [severity: Review]: The text explicitly cites a specific table or
@@ -206,7 +215,7 @@ children, mental health data, criminal history records, or other sensitive popul
 def build_prompt(manuscript_text: str, framework: str) -> str:
     rules = IES_RULES if framework == "ies" else ICPSR_RULES
     # Cap text to avoid exceeding context window
-    truncated = manuscript_text[:40000]
+    truncated = manuscript_text[:120000]
     return f"""{rules}
 
 ---
