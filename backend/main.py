@@ -179,9 +179,11 @@ Apply ALL rules below ONLY to IN-SCOPE items. Ignore OUT-OF-SCOPE items entirely
    PASSING example — do NOT flag:
      "Numbers for |control| and |treated| are unweighted and rounded to nearest tens."
      → Explicitly states "unweighted": satisfies Rule 4.
-   Actively search each restricted-use table's NOTE, footnote, or header for the words
-   "unweighted" or "weighted". If those words are absent in the context of sample sizes,
-   flag the table under Rule 4 regardless of whether a rounding statement is present.
+   MANDATORY VERIFICATION: For every restricted-use table that reports Ns, read the exact
+   text of its NOTE or footnote word by word. Physically check whether the word "unweighted"
+   or "weighted" appears. A rounding statement alone ("rounded to nearest tens") is NOT
+   sufficient — if "unweighted" (or "weighted") is absent from the note, flag the table
+   under Rule 4. Do not assume compliance without reading the note text.
    If a global statement in the manuscript says both "unweighted" AND "rounded to nearest
    10", in-text sample sizes are covered — do NOT flag individual in-text Ns. This rule
    applies ONLY to sample size counts (Ns) in tables.
@@ -206,15 +208,18 @@ Apply ALL rules below ONLY to IN-SCOPE items. Ignore OUT-OF-SCOPE items entirely
    Do NOT flag figures or tables that do not use restricted-use data. When applicable, the
    SOURCE note format is:
    "SOURCE: U.S. Department of Education, National Center for Education Statistics, [Survey Name]"
-   AGENCY NAME CHECK: Scan every SOURCE note in the manuscript — including those in tables
-   and figures that appear late in the document or in appendices — for the correct agency
-   name. The only correct form is "National Center for Education Statistics". Any variant
-   is wrong and must be flagged:
-     - "National Center on Education Statistics" → wrong preposition ("on" not "for")
+   AGENCY NAME CHECK — MANDATORY FOR EVERY SOURCE NOTE: For every SOURCE note you find,
+   copy its exact text and compare it character by character against the only correct form:
+   "National Center for Education Statistics"
+   Any deviation — even a single wrong word — is a violation that must be flagged:
+     - "National Center on Education Statistics" → wrong preposition ("on" instead of "for")
      - "National Center on Educational Statistics" → wrong preposition AND wrong adjective
-     - "National Center for Educational Statistics" → wrong adjective ("Educational" not "Education")
-     - Any other deviation from the exact phrase "National Center for Education Statistics"
-   Flag each table or figure with an incorrect agency name as a separate finding.
+     - "National Center for Educational Statistics" → wrong adjective ("Educational" instead of "Education")
+     - Any other deviation from the exact phrase above
+   Do not read SOURCE notes casually — read every word. "Educational" and "Education" are
+   different words; "on" and "for" are different prepositions. If the SOURCE note does not
+   say exactly "National Center for Education Statistics", flag it. Flag each table or
+   figure with an incorrect agency name as a separate finding.
 6. INTERNAL CONSISTENCY [severity: Review for exact mismatches; severity: Low for
    approximate or derived values]: Two sub-cases apply:
    (a) EXACT MISMATCH [severity: Review]: The text explicitly cites a specific table or
@@ -710,13 +715,14 @@ async def audit_manuscript(
         tnum = _location_table_num(finding.get("location", ""))
         if tnum is None:
             return False  # Not a table-specific finding — leave it
-        # Deterministic: section explicitly cites a non-IES published source — remove all
-        if tnum in non_ies_section_tables:
-            return True
+        # SOURCE note is the strongest signal — a confirmed IES table is NEVER removed,
+        # even if its section also cites a published paper in passing.
         if tnum in tables_with_source:
             return False  # SOURCE note present — confirmed IES data, keep everything
-        # No SOURCE note for this table. Keep only if it's a "missing SOURCE note"
-        # finding AND the model's flag explicitly names an IES/NCES dataset.
+        # No SOURCE note. If the section explicitly declares a non-IES data source, remove.
+        if tnum in non_ies_section_tables:
+            return True
+        # No SOURCE note and no section signal. Keep only legitimate missing-SOURCE findings.
         if _is_missing_source_finding(finding) and _flag_names_ies_dataset(finding):
             return False  # Legitimate: restricted-use table missing its SOURCE note
         return True  # Remove: cannot confirm this table uses IES restricted-use data
