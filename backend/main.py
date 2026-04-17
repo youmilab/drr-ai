@@ -109,6 +109,12 @@ specifies its required severity below. Always use exactly the severity stated.
    even if they happen to be decimal numbers. When applicable: summary percentages must be
    rounded to tenths (max 1 decimal place); reference percentages max 2 decimal places;
    proportions must be rounded to hundredths (e.g., 0.08).
+   BACK-CALCULATION CONCERN: Do NOT flag a percentage as enabling back-calculation when the
+   accompanying sample size count is already rounded (i.e., ends in 0). A rounded count
+   divided by a percentage yields only an approximation of the original count, not the exact
+   pre-rounding value — back-calculation is not feasible in this case and must not be flagged.
+   Only raise a back-calculation concern when the count used to derive the percentage is itself
+   exact (unrounded, last digit 1–9).
 4. WEIGHTED/UNWEIGHTED LABELING [severity: Review]: Only applies to TABLES that report
    sample size values (raw counts or Ns) derived from restricted-use data. Each such table
    must include a note or label indicating whether the Ns are weighted or unweighted.
