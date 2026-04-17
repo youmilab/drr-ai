@@ -1,5 +1,6 @@
 import io
 import os
+import re
 import json
 import time
 import datetime
@@ -609,8 +610,6 @@ async def audit_manuscript(
             status_code=502,
             detail=f"Received an unexpected response from the AI. Parse error: {e}. Response preview: {raw[:200]}"
         )
-
-    import re
 
     # Remove Rule 1 High findings where the model's own last-digit check shows the count ends in 0
     def _rule1_last_digit_compliant(finding: dict) -> bool:
