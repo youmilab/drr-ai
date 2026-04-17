@@ -57,6 +57,21 @@ agency, a prior published study, or any data not described as IES/NCES restricte
 that table, figure, or passage is FULLY EXEMPT from all rules below. Do NOT flag it
 under any rule. A manuscript may analyze multiple datasets; apply the rules only to the
 IES/NCES restricted-use portions and ignore all other portions entirely.
+HOW TO IDENTIFY IES/NCES RESTRICTED-USE DATA:
+  POSITIVE indicators (data IS restricted-use, rules apply):
+    - The table has a SOURCE note citing "U.S. Department of Education, National Center
+      for Education Statistics" or naming a known IES/NCES restricted-use dataset
+      (NAEP, ECLS-K, ECLS-B, ELS, HSLS, SSES, NSCG, etc.)
+    - The surrounding section text explicitly describes accessing or using an
+      IES/NCES restricted-use data file
+  NEGATIVE indicators (data is NOT restricted-use, table is EXEMPT):
+    - The table has no SOURCE note at all AND the surrounding section text cites a
+      published paper, a state agency, or any non-IES/NCES source as the data origin
+    - The surrounding text says data come from a prior publication (e.g., "Wong et al.,
+      2007", "Smith et al., 2015") rather than directly from an IES/NCES dataset
+    - The data are described as state administrative data, district data, school records,
+      or any source not identified as an IES/NCES restricted-use file
+  When uncertain, default to EXEMPT — do not flag unless a positive indicator is present.
 
 1. UNWEIGHTED NS [severity: High for unrounded counts; severity: Review for ambiguous zeros]:
    WHAT THIS RULE COVERS: Only unweighted counts of individual respondents or participants
@@ -142,10 +157,16 @@ IES/NCES restricted-use portions and ignore all other portions entirely.
    rounded base counts like 4130.
 4. WEIGHTED/UNWEIGHTED LABELING [severity: Review]: Only applies to TABLES that report
    sample size values (raw counts or Ns) derived from restricted-use data. Each such table
-   must include a note or label indicating whether the Ns are weighted or unweighted.
-   If a global rounding statement exists in the manuscript (see Rule 2), in-text sample sizes
-   are already covered by that statement — do NOT flag individual in-text Ns for lacking a
-   weighted/unweighted label. This rule applies ONLY to sample size counts (Ns) in tables.
+   must include a note or label that explicitly uses the word "unweighted" (or "weighted")
+   in connection with the sample size counts reported in that table.
+   A rounding statement alone (e.g., "numbers are rounded to the nearest 10") does NOT
+   satisfy this requirement — it must also say "unweighted" (e.g., "unweighted sample sizes
+   are rounded to the nearest 10"). If a table note mentions rounding but does not include
+   the word "unweighted" or "weighted", flag it under Rule 4.
+   If a global rounding statement exists in the manuscript that says both "unweighted" AND
+   "rounded to nearest 10", in-text sample sizes are already covered — do NOT flag individual
+   in-text Ns for lacking a weighted/unweighted label. This rule applies ONLY to sample size
+   counts (Ns) in tables.
    The following must NEVER be flagged under Rule 4: regression coefficients, R-squared
    values, standard errors of regression estimates, F-statistics, t-statistics, p-values,
    means, percentages, or any statistical result reported in text. Regression results
