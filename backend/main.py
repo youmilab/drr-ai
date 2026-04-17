@@ -455,6 +455,60 @@ def _location_table_num(location: str):
     return m.group(1) if m else None
 
 
+def _find_non_ies_section_tables(text: str) -> set:
+    """
+    Return the set of table numbers (as strings) that appear inside sections whose
+    text explicitly cites a published paper (Author et al., YYYY) as the primary data
+    source without naming any IES/NCES restricted-use dataset.
+
+    Example: a section that says "We use New Jersey's data from Wong et al. (2007)"
+    but never mentions NAEP, ECLS, NCES, etc. — all Table references in that section
+    are returned so they can be filtered from the audit output.
+    """
+    non_ies_tables: set = set()
+
+    # Section header pattern: optional "Section" keyword, then a number like "7", "7.1", "7.1.2"
+    # followed by whitespace and the beginning of a title word.
+    section_header_re = re.compile(
+        r'(?m)^[ \t]*(?:section\s+)?(\d+(?:\.\d+)*)[ \t]*[.\-–]?[ \t]+\S',
+        re.IGNORECASE,
+    )
+
+    # Citation pattern: "et al. (YYYY)" or "et al., YYYY" or "et al. YYYY"
+    citation_re = re.compile(r'\bet\s+al\.[\s,]+\(?\d{4}\)?', re.IGNORECASE)
+
+    # IES / NCES restricted-use dataset indicators
+    ies_dataset_re = re.compile(
+        r'\b(?:naep|ecls|els|hsls|sses|nscg|nces|restricted[- ]use)\b'
+        r'|national\s+assessment\s+of\s+educational\s+progress'
+        r'|early\s+childhood\s+longitudinal'
+        r'|education\s+longitudinal\s+study'
+        r'|high\s+school\s+longitudinal'
+        r'|institute\s+of\s+education\s+sciences',
+        re.IGNORECASE,
+    )
+
+    # Table reference pattern
+    table_ref_re = re.compile(r'\bTable\s+(\d+)\b', re.IGNORECASE)
+
+    # Collect all section header positions
+    headers = [(m.start(), m.group()) for m in section_header_re.finditer(text)]
+
+    for i, (start, _) in enumerate(headers):
+        end = headers[i + 1][0] if i + 1 < len(headers) else len(text)
+        section_text = text[start:end]
+
+        has_citation = bool(citation_re.search(section_text))
+        has_ies = bool(ies_dataset_re.search(section_text))
+
+        if has_citation and not has_ies:
+            # Section uses data from a published (non-IES) source
+            for m in table_ref_re.finditer(section_text):
+                non_ies_tables.add(m.group(1))
+
+    return non_ies_tables
+
+
 # ── Endpoints ─────────────────────────────────────────────────────────────────
 
 @app.get("/health")
@@ -517,6 +571,7 @@ async def audit_manuscript(
     # A table confirmed to have a SOURCE note is treated as IES restricted-use data;
     # tables without SOURCE notes cannot be confirmed and are filtered out in post-processing.
     tables_with_source = _find_tables_with_source_notes(manuscript_text)
+    non_ies_section_tables = _find_non_ies_section_tables(manuscript_text)
 
     prompt = build_prompt(manuscript_text, framework)
     del manuscript_text  # Free memory before API call
@@ -656,6 +711,9 @@ async def audit_manuscript(
         tnum = _location_table_num(finding.get("location", ""))
         if tnum is None:
             return False  # Not a table-specific finding — leave it
+        # Deterministic: section explicitly cites a non-IES published source — remove all
+        if tnum in non_ies_section_tables:
+            return True
         if tnum in tables_with_source:
             return False  # SOURCE note present — confirmed IES data, keep everything
         # No SOURCE note for this table. Keep only if it's a "missing SOURCE note"
