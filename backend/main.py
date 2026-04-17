@@ -47,14 +47,35 @@ Apply ALL of the following rules strictly:
 SEVERITY LEVELS ARE FIXED — do not use your own judgment to assign severity. Each rule
 specifies its required severity below. Always use exactly the severity stated.
 
+SCOPE — RESTRICTED-USE DATA ONLY: All rules below apply ONLY to data derived from
+IES/NCES restricted-use datasets (e.g., NAEP, ECLS, ELS, HSLS, SSES, or any dataset
+explicitly identified in the manuscript as an IES or NCES restricted-use file). Before
+applying any rule to a table, figure, or passage, read the surrounding text to identify
+the data source. If the data come from a publicly available dataset, state administrative
+data, a non-IES survey, or a published third-party source (e.g., a state education
+agency, a prior published study, or any data not described as IES/NCES restricted-use),
+that table, figure, or passage is FULLY EXEMPT from all rules below. Do NOT flag it
+under any rule. A manuscript may analyze multiple datasets; apply the rules only to the
+IES/NCES restricted-use portions and ignore all other portions entirely.
+
 1. UNWEIGHTED NS [severity: High for unrounded counts; severity: Review for ambiguous zeros]:
-   WHAT THIS RULE COVERS: Only unweighted sample size COUNTS — values explicitly labeled
-   as N, n, sample size, or count of respondents. This rule does NOT apply to any of the
-   following, which must never be flagged under Rule 1: means, standard deviations, standard
-   errors, test scores, IRT scores, scale scores, min/max values, percentages, proportions,
-   regression coefficients, F-statistics, t-statistics, p-values, or any other statistical
-   estimate. Point estimates of statistics (means, min, max, scores) do not identify
-   individuals and back-calculation is not feasible — they are exempt from this rule entirely.
+   WHAT THIS RULE COVERS: Only unweighted counts of individual respondents or participants
+   drawn directly from an IES/NCES restricted-use dataset — values labeled as N, n, sample
+   size, number of students, number of respondents, or similar descriptions of people
+   counted from restricted-use data.
+   ANALYTICAL QUANTITIES THAT ARE NEVER SAMPLE SIZES: The following must NEVER be flagged
+   under Rule 1 regardless of their numeric value, because they are methodological or
+   analytical quantities, not counts of respondents from restricted-use data:
+     - Number of strata (e.g., J, J_k, K, number of matched sets or matched pairs)
+     - Number of clusters, schools, classrooms, or geographic units used as analytical units
+     - Number of iterations, replications, bootstraps, or simulations
+     - Number of covariates, variables, or model parameters
+     - Index values, group labels, or factor identifiers
+   These quantities describe the structure of the analysis, not the count of individuals
+   in the restricted-use dataset, and are exempt from rounding requirements.
+   This rule also does NOT apply to: means, standard deviations, standard errors, test
+   scores, IRT scores, scale scores, min/max values, percentages, proportions, regression
+   coefficients, F-statistics, t-statistics, p-values, or any other statistical estimate.
    Weighted sample sizes (population estimates inflated by survey weights) are also exempt.
    ROUNDING CHECK: To determine whether a number ends in 0, look only at the LAST digit of
    the integer portion of the number (ignoring commas, spaces, and any decimal portion).
@@ -258,15 +279,23 @@ CRITICAL INSTRUCTIONS:
   or a note saying "discarding this finding." A finding that you discard must be completely
   absent from the JSON output. Every object in the findings array must represent a genuine
   violation requiring author action.
-- INTERNAL CHECKS ONLY: Before including a finding, verify: (a) for any N flagged under
-  Rule 1, identify the exact integer and confirm its last digit is 1–9 — if the last digit
-  is 0 the count is compliant, discard the finding; (b) Rule 2 must not be triggered by a
-  compliant (last-digit-0) count appearing alongside a percentage — only flag Rule 2 for a
-  genuinely absent or contradicted rounding statement; (c) Rule 3 is about decimal precision
-  only — never flag a percentage for back-calculation risk, which is not part of Rule 3;
-  (d) a small cell is only N=1 through N=9 — N≥10 is never a small cell; (e) CV must be
-  computed as (SE/Estimate)×100 and must exceed 30% to flag. Apply these checks before
-  writing the final JSON — omit any finding that fails them.
+- INTERNAL CHECKS ONLY: Before including any finding, verify ALL of the following:
+  (a) DATA SOURCE: confirm the table, figure, or passage uses IES/NCES restricted-use data.
+  If the data source is a public dataset, state data, or any non-IES/NCES source, discard
+  the finding entirely — it is exempt from all rules.
+  (b) RESPONDENT COUNT vs. ANALYTICAL QUANTITY: for any number flagged under Rule 1,
+  confirm it is a count of individual respondents from the restricted-use dataset, NOT a
+  methodological quantity such as number of strata (J, J_k), number of clusters, number of
+  matched sets, or any other structural quantity. If it is analytical/methodological,
+  discard the finding.
+  (c) LAST DIGIT: for any respondent count flagged under Rule 1, confirm its last digit is
+  1–9. If the last digit is 0 the count is compliant — discard the finding.
+  (d) Rule 2 must not be triggered by a compliant (last-digit-0) count alongside a
+  percentage — only flag for a genuinely absent or contradicted rounding statement.
+  (e) Rule 3 is about decimal precision only — never flag a percentage for back-calculation.
+  (f) A small cell is only N=1–9 — N≥10 is never a small cell.
+  (g) CV must be (SE/Estimate)×100 and must exceed 30% to flag.
+  Omit any finding that fails any of these checks.
 
 OUTPUT FORMAT: Your entire response must be ONLY valid JSON with no text before or after it.
 Do not write any explanation, reasoning, preamble, or commentary — start your response
