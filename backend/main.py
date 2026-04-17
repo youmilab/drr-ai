@@ -619,19 +619,50 @@ async def audit_manuscript(
         )
     findings = [f for f in findings_raw if not _has_no_action(f)]
 
-    # Remove findings for tables that have no SOURCE note in the manuscript.
-    # A table without a SOURCE note cannot be confirmed as IES restricted-use data,
-    # so Rules 1, 2, 4, and "missing SOURCE note" findings for it are not actionable.
-    # Exception: keep Rule 5 findings that flag an *incorrect* agency name in an
-    # *existing* SOURCE note (those tables ARE in tables_with_source).
+    # SOURCE-NOTE-BASED SCOPE FILTER
+    # Tables WITH a SOURCE note: confirmed IES restricted-use — keep all findings.
+    # Tables WITHOUT a SOURCE note: data source unconfirmed — apply selective filtering:
+    #   - Remove Rules 1, 2, 4 findings (cannot confirm IES data).
+    #   - Keep Rule 5 "missing SOURCE note" findings ONLY if the model's own flag field
+    #     explicitly names a known IES/NCES dataset (NAEP, ECLS, etc.), signalling that
+    #     the model correctly identified restricted-use data that just lacks the note.
+    #   - This allows detection of genuinely missing SOURCE notes while blocking false
+    #     positives for non-IES tables like those from published third-party sources.
+
+    _IES_DATASET_TOKENS = (
+        'naep', 'ecls', 'els:', 'hsls', 'sses', 'nscg',
+        'national assessment', 'early childhood longitudinal',
+        'high school longitudinal', 'education longitudinal',
+    )
+    _MISSING_SOURCE_PHRASES = (
+        'missing a source', 'no source note', 'lacks a source',
+        'source note is missing', 'add a source note',
+        'does not have a source', 'source note identifying',
+        'include a source note', 'missing source note',
+    )
+
+    def _flag_names_ies_dataset(finding: dict) -> bool:
+        """True if the FLAG field explicitly names a known IES/NCES dataset."""
+        flag = finding.get("flag", "").lower()
+        return any(tok in flag for tok in _IES_DATASET_TOKENS)
+
+    def _is_missing_source_finding(finding: dict) -> bool:
+        """True if this finding is specifically about a missing SOURCE note."""
+        combined = (finding.get("flag", "") + " " + finding.get("recommendation", "")).lower()
+        return any(phrase in combined for phrase in _MISSING_SOURCE_PHRASES)
+
     def _unconfirmed_table(finding: dict) -> bool:
+        """True if this finding should be removed due to unconfirmed IES data source."""
         tnum = _location_table_num(finding.get("location", ""))
         if tnum is None:
-            return False  # Not a table finding — leave it alone
+            return False  # Not a table-specific finding — leave it
         if tnum in tables_with_source:
-            return False  # Table has SOURCE note — confirmed IES data, keep all findings
-        # Table has no SOURCE note — remove all findings for it
-        return True
+            return False  # SOURCE note present — confirmed IES data, keep everything
+        # No SOURCE note for this table. Keep only if it's a "missing SOURCE note"
+        # finding AND the model's flag explicitly names an IES/NCES dataset.
+        if _is_missing_source_finding(finding) and _flag_names_ies_dataset(finding):
+            return False  # Legitimate: restricted-use table missing its SOURCE note
+        return True  # Remove: cannot confirm this table uses IES restricted-use data
 
     findings = [f for f in findings if not _unconfirmed_table(f)]
     report["findings"] = findings
