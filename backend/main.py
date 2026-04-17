@@ -431,6 +431,30 @@ def log_metadata(
         f.write(json.dumps(record) + "\n")
 
 
+# ── Source-note detection ─────────────────────────────────────────────────────
+
+def _find_tables_with_source_notes(text: str) -> set:
+    """
+    Return the set of table numbers (as strings, e.g. {'5'}) whose table caption
+    is followed by a SOURCE: line within the next 5 000 characters of extracted text.
+    Only tables confirmed to have a SOURCE note can be treated as IES restricted-use.
+    """
+    tables_with_source: set = set()
+    # Match table captions: "Table 4:" / "Table 4." / "Table 4\n"
+    for m in re.finditer(r'\bTable\s+(\d+)\s*[:\.\n]', text, re.IGNORECASE):
+        table_num = m.group(1)
+        window = text[m.start(): min(len(text), m.start() + 5000)]
+        if re.search(r'\bSOURCE\s*:', window, re.IGNORECASE):
+            tables_with_source.add(table_num)
+    return tables_with_source
+
+
+def _location_table_num(location: str):
+    """Extract the table number string from a finding's location field, or None."""
+    m = re.search(r'\bTable\s+(\d+)\b', location, re.IGNORECASE)
+    return m.group(1) if m else None
+
+
 # ── Endpoints ─────────────────────────────────────────────────────────────────
 
 @app.get("/health")
@@ -488,6 +512,11 @@ async def audit_manuscript(
                 "If uploading a scanned PDF, please use a text-based PDF instead."
             )
         )
+
+    # Identify which tables have SOURCE notes before discarding the text.
+    # A table confirmed to have a SOURCE note is treated as IES restricted-use data;
+    # tables without SOURCE notes cannot be confirmed and are filtered out in post-processing.
+    tables_with_source = _find_tables_with_source_notes(manuscript_text)
 
     prompt = build_prompt(manuscript_text, framework)
     del manuscript_text  # Free memory before API call
@@ -589,6 +618,22 @@ async def audit_manuscript(
             or finding.get("rule", "").strip().upper() == "N/A"
         )
     findings = [f for f in findings_raw if not _has_no_action(f)]
+
+    # Remove findings for tables that have no SOURCE note in the manuscript.
+    # A table without a SOURCE note cannot be confirmed as IES restricted-use data,
+    # so Rules 1, 2, 4, and "missing SOURCE note" findings for it are not actionable.
+    # Exception: keep Rule 5 findings that flag an *incorrect* agency name in an
+    # *existing* SOURCE note (those tables ARE in tables_with_source).
+    def _unconfirmed_table(finding: dict) -> bool:
+        tnum = _location_table_num(finding.get("location", ""))
+        if tnum is None:
+            return False  # Not a table finding — leave it alone
+        if tnum in tables_with_source:
+            return False  # Table has SOURCE note — confirmed IES data, keep all findings
+        # Table has no SOURCE note — remove all findings for it
+        return True
+
+    findings = [f for f in findings if not _unconfirmed_table(f)]
     report["findings"] = findings
     report["item_count"] = len(findings)
 
