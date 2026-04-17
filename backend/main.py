@@ -47,31 +47,33 @@ Apply ALL of the following rules strictly:
 SEVERITY LEVELS ARE FIXED — do not use your own judgment to assign severity. Each rule
 specifies its required severity below. Always use exactly the severity stated.
 
-SCOPE — RESTRICTED-USE DATA ONLY: All rules below apply ONLY to data derived from
-IES/NCES restricted-use datasets (e.g., NAEP, ECLS, ELS, HSLS, SSES, or any dataset
-explicitly identified in the manuscript as an IES or NCES restricted-use file). Before
-applying any rule to a table, figure, or passage, read the surrounding text to identify
-the data source. If the data come from a publicly available dataset, state administrative
-data, a non-IES survey, or a published third-party source (e.g., a state education
-agency, a prior published study, or any data not described as IES/NCES restricted-use),
-that table, figure, or passage is FULLY EXEMPT from all rules below. Do NOT flag it
-under any rule. A manuscript may analyze multiple datasets; apply the rules only to the
-IES/NCES restricted-use portions and ignore all other portions entirely.
-HOW TO IDENTIFY IES/NCES RESTRICTED-USE DATA:
-  POSITIVE indicators (data IS restricted-use, rules apply):
-    - The table has a SOURCE note citing "U.S. Department of Education, National Center
-      for Education Statistics" or naming a known IES/NCES restricted-use dataset
-      (NAEP, ECLS-K, ECLS-B, ELS, HSLS, SSES, NSCG, etc.)
-    - The surrounding section text explicitly describes accessing or using an
-      IES/NCES restricted-use data file
-  NEGATIVE indicators (data is NOT restricted-use, table is EXEMPT):
-    - The table has no SOURCE note at all AND the surrounding section text cites a
-      published paper, a state agency, or any non-IES/NCES source as the data origin
-    - The surrounding text says data come from a prior publication (e.g., "Wong et al.,
-      2007", "Smith et al., 2015") rather than directly from an IES/NCES dataset
-    - The data are described as state administrative data, district data, school records,
-      or any source not identified as an IES/NCES restricted-use file
-  When uncertain, default to EXEMPT — do not flag unless a positive indicator is present.
+STEP 0 — MANDATORY TRIAGE BEFORE ANY RULE IS APPLIED:
+Before checking any rule, scan the full manuscript and build a list of which tables and
+figures use IES/NCES restricted-use data. Only items on that list may be flagged.
+
+A table or figure uses IES/NCES restricted-use data IF AND ONLY IF at least one of
+these conditions is true:
+  (A) It has a SOURCE note that names "U.S. Department of Education, National Center
+      for Education Statistics" or a known IES/NCES dataset (NAEP, ECLS-K, ECLS-B,
+      ELS:2002, HSLS, SSES, NSCG, or similar).
+  (B) The section of text that introduces the table explicitly states that the data
+      come directly from an IES or NCES restricted-use file (e.g., "we use the NAEP
+      restricted-use data", "data come from the ECLS-K restricted-use file").
+
+A table or figure does NOT use IES/NCES restricted-use data — and is FULLY EXEMPT —
+if any of these conditions is true:
+  (X) It has no SOURCE note AND the surrounding text attributes the data to a
+      published study, state program, or non-IES/NCES source.
+  (Y) The surrounding text says the data come from a prior publication (e.g.,
+      "data from Wong et al. (2007)", "we use data from Smith et al. (2015)").
+  (Z) The data are described as state administrative records, district data,
+      program records, or any source not identified as an IES/NCES restricted-use file.
+
+DEFAULT RULE: When in doubt, treat the table or figure as EXEMPT. Do not flag it
+unless condition (A) or (B) is clearly satisfied.
+
+Apply ALL rules below ONLY to the tables and figures identified as IES/NCES
+restricted-use in this triage step. Ignore all other content entirely.
 
 1. UNWEIGHTED NS [severity: High for unrounded counts; severity: Review for ambiguous zeros]:
    WHAT THIS RULE COVERS: Only unweighted counts of individual respondents or participants
@@ -159,14 +161,20 @@ HOW TO IDENTIFY IES/NCES RESTRICTED-USE DATA:
    sample size values (raw counts or Ns) derived from restricted-use data. Each such table
    must include a note or label that explicitly uses the word "unweighted" (or "weighted")
    in connection with the sample size counts reported in that table.
-   A rounding statement alone (e.g., "numbers are rounded to the nearest 10") does NOT
-   satisfy this requirement — it must also say "unweighted" (e.g., "unweighted sample sizes
-   are rounded to the nearest 10"). If a table note mentions rounding but does not include
-   the word "unweighted" or "weighted", flag it under Rule 4.
-   If a global rounding statement exists in the manuscript that says both "unweighted" AND
-   "rounded to nearest 10", in-text sample sizes are already covered — do NOT flag individual
-   in-text Ns for lacking a weighted/unweighted label. This rule applies ONLY to sample size
-   counts (Ns) in tables.
+   CRITICAL: A rounding statement alone does NOT satisfy this requirement. The word
+   "unweighted" (or "weighted") must appear explicitly in the table note or label.
+   FAILING example — flag this under Rule 4:
+     "Numbers for |control| and |treated| are rounded to nearest tens."
+     → Missing "unweighted": does not disclose whether Ns are weighted or unweighted.
+   PASSING example — do NOT flag:
+     "Numbers for |control| and |treated| are unweighted and rounded to nearest tens."
+     → Explicitly states "unweighted": satisfies Rule 4.
+   Actively search each restricted-use table's NOTE, footnote, or header for the words
+   "unweighted" or "weighted". If those words are absent in the context of sample sizes,
+   flag the table under Rule 4 regardless of whether a rounding statement is present.
+   If a global statement in the manuscript says both "unweighted" AND "rounded to nearest
+   10", in-text sample sizes are covered — do NOT flag individual in-text Ns. This rule
+   applies ONLY to sample size counts (Ns) in tables.
    The following must NEVER be flagged under Rule 4: regression coefficients, R-squared
    values, standard errors of regression estimates, F-statistics, t-statistics, p-values,
    means, percentages, or any statistical result reported in text. Regression results
