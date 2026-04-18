@@ -129,6 +129,15 @@ Apply ALL rules below ONLY to IN-SCOPE items. Ignore OUT-OF-SCOPE items entirely
    ECLS-B ONLY: rounding increment is 50 (not a size threshold).
    DEGREES OF FREEDOM: Check df2 in F(df1, df2) and df in t(df) — if df does not end in 0,
    flag as High. Check this in every run without exception.
+   SMALL CELLS THAT ROUND TO ZERO (counts 1–4): When a count of 1–4 is rounded to the
+   nearest 10 it becomes 0, which falsely implies the cell is empty. IES requires these
+   cells to be presented as "<10" rather than "0" or any other symbol. Scan every table
+   for cells reported as "0", "#", "‡", "*", or any other suppression symbol. Flag any
+   such cell under Rule 1 (severity: High) if the context suggests it represents a small
+   non-zero count rather than a true zero — the correct notation is "<10".
+   Specifically flag any table note that says "rounded to zero", "#s are rounded to zero",
+   or any equivalent phrasing, because these imply the cell was rounded to 0 rather than
+   presented as "<10". The required IES notation for counts that round to zero is "<10".
    ZERO CELLS: "0" is correct for true zeros. Flag "0" as Review only if context suggests
    1–9 participants may be present but incorrectly reported as zero.
 2. ROUNDING STATEMENT [severity: Review]: Only applies when the manuscript contains
