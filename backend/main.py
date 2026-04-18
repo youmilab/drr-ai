@@ -258,10 +258,15 @@ Apply ALL rules below ONLY to IN-SCOPE items. Ignore OUT-OF-SCOPE items entirely
    a confirmed, clear disagreement between two specific values.
    SUBGROUP SUM CHECK: Before flagging that subgroup counts do not sum to a reported total,
    compute the actual arithmetic sum of all subgroup values and compare it to the stated
-   total. Account for rounding (subgroup sums may differ from the total by a small amount
-   due to rounding). Only flag if the computed sum is clearly inconsistent with the stated
-   total after accounting for rounding. If the sum matches or is plausibly consistent, do
-   NOT flag this as an inconsistency.
+   total. Apply the following two rules before flagging:
+     Rule A — Rounding note present: If the table includes a note such as "Values may not
+     sum to a total due to rounding," "Details may not sum to a total due to rounding," or
+     any equivalent phrasing, then ANY discrepancy between the subgroup sum and the reported
+     total is expected and must NOT be flagged. The authors have already disclosed this.
+     Rule B — Rounding tolerance: Even without an explicit note, when all counts are rounded
+     to the nearest 10, a discrepancy of 20 or less between the subgroup sum and the reported
+     total is always plausibly explained by rounding and must NOT be flagged.
+   Only flag if the discrepancy exceeds 20 AND there is no rounding disclaimer note.
    (b) APPROXIMATE OR DERIVED VALUE [severity: Low]: The text states an approximate or
    computed value (e.g., a gap, difference, or summary described as "approximately X") that
    is derived from table values but may not match exactly. Flag only if the approximation
