@@ -227,18 +227,27 @@ Apply ALL rules below ONLY to IN-SCOPE items. Ignore OUT-OF-SCOPE items entirely
    Do NOT flag figures or tables that do not use restricted-use data. When applicable, the
    SOURCE note format is:
    "SOURCE: U.S. Department of Education, National Center for Education Statistics, [Survey Name]"
-   AGENCY NAME CHECK — MANDATORY FOR EVERY SOURCE NOTE: For every SOURCE note you find,
-   copy its exact text and compare it character by character against the only correct form:
+   AGENCY NAME CHECK — MANDATORY FOR EVERY SOURCE NOTE [severity: Review]: For every
+   SOURCE note you find, copy its exact text and compare it character by character against
+   the only correct form:
    "National Center for Education Statistics"
-   Any deviation — even a single wrong word — is a violation that must be flagged:
+   Any deviation — even a single wrong word — is a violation that must be flagged as Review:
      - "National Center on Education Statistics" → wrong preposition ("on" instead of "for")
      - "National Center on Educational Statistics" → wrong preposition AND wrong adjective
      - "National Center for Educational Statistics" → wrong adjective ("Educational" instead of "Education")
      - Any other deviation from the exact phrase above
    Do not read SOURCE notes casually — read every word. "Educational" and "Education" are
    different words; "on" and "for" are different prepositions. If the SOURCE note does not
-   say exactly "National Center for Education Statistics", flag it. Flag each table or
-   figure with an incorrect agency name as a separate finding.
+   say exactly "National Center for Education Statistics", flag it as severity Review. Flag
+   each table or figure with an incorrect agency name as a separate finding.
+   NCES AFFILIATION LANGUAGE [severity: Review]: NCES is currently part of IES — it has
+   not left or been separated from IES. Scan the manuscript body text for any phrase that
+   describes NCES as "previously within", "formerly within", "formerly part of", or any
+   other phrasing that implies NCES is no longer part of IES. Such language is factually
+   incorrect and must be flagged. The correct phrasing is "within" or "in" (e.g., "NCES,
+   within the Institute of Education Sciences" or "NCES, in IES"). Flag any use of
+   "previously within the Institute of Education Sciences" or equivalent as severity Review,
+   with a recommendation to replace "previously within" with "in".
 6. INTERNAL CONSISTENCY [severity: Review for exact mismatches; severity: Low for
    approximate or derived values]: Two sub-cases apply:
    (a) EXACT MISMATCH [severity: Review]: The text explicitly cites a specific table or
