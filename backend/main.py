@@ -131,13 +131,23 @@ Apply ALL rules below ONLY to IN-SCOPE items. Ignore OUT-OF-SCOPE items entirely
    flag as High. Check this in every run without exception.
    SMALL CELLS THAT ROUND TO ZERO (counts 1–4): When a count of 1–4 is rounded to the
    nearest 10 it becomes 0, which falsely implies the cell is empty. IES requires these
-   cells to be presented as "<10" rather than "0" or any other symbol. Scan every table
-   for cells reported as "0", "#", "‡", "*", or any other suppression symbol. Flag any
-   such cell under Rule 1 (severity: High) if the context suggests it represents a small
-   non-zero count rather than a true zero — the correct notation is "<10".
-   Specifically flag any table note that says "rounded to zero", "#s are rounded to zero",
-   or any equivalent phrasing, because these imply the cell was rounded to 0 rather than
-   presented as "<10". The required IES notation for counts that round to zero is "<10".
+   cells to be presented as "<10" — never as "0", "#", "‡", "*", or any other symbol.
+   MANDATORY CHECK — perform this for every restricted-use table:
+     Step 1. Read every table note and footnote word by word.
+     Step 2. If you find ANY of the following phrases, flag it immediately as a Rule 1
+             violation (severity: High):
+               - "#s are rounded to zero"
+               - "rounded to zero"
+               - "# = rounded to zero"
+               - "# represents counts that round to zero"
+               - any phrasing that equates a symbol (# ‡ * etc.) with rounding to 0
+     Step 3. The flag must say: the table note uses [symbol] to denote counts that round
+             to zero, but IES requires these cells to be presented as "<10" instead.
+     Step 4. The recommendation must say: replace [symbol] with "<10" in all affected
+             cells and update the table note to state counts that round to zero are
+             presented as "<10".
+   Do NOT skip this check. Do NOT treat "#s are rounded to zero" as acceptable notation.
+   The required IES notation for counts that round to zero is exclusively "<10".
    ZERO CELLS: "0" is correct for true zeros. Flag "0" as Review only if context suggests
    1–9 participants may be present but incorrectly reported as zero.
 2. ROUNDING STATEMENT [severity: Review]: Only applies when the manuscript contains
