@@ -133,14 +133,14 @@
       <!-- 2. Framework Toggle -->
       <div class="mb-6">
         <label class="block text-sm font-semibold text-gray-700 mb-2">Compliance Framework</label>
-        <div class="inline-flex rounded-lg border border-gray-300 overflow-hidden" role="group" aria-label="Compliance framework">
+        <div class="inline-flex rounded-lg border border-gray-300" role="group" aria-label="Compliance framework">
           <button id="btn-ies" type="button" data-framework="ies"
-                  class="px-5 py-2 text-sm font-medium bg-accent text-white focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-1 transition">
+                  class="px-5 py-2 text-sm font-medium rounded-l-lg bg-accent text-white focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-1 transition">
             IES / NCES (Strict Mode)
           </button>
           <span class="tooltip-wrap border-l border-gray-300">
             <button id="btn-icpsr" type="button" data-framework="icpsr" disabled
-                    class="px-5 py-2 text-sm font-medium bg-white text-gray-400 cursor-not-allowed opacity-50 focus:outline-none pointer-events-none transition">
+                    class="px-5 py-2 text-sm font-medium rounded-r-lg bg-white text-gray-400 cursor-not-allowed opacity-50 focus:outline-none pointer-events-none transition">
               ICPSR
             </button>
             <span class="tooltip-text">ICPSR support is coming soon</span>
@@ -313,13 +313,10 @@
 
     function setFramework(fw) {
       state.framework = fw;
-      if (fw === 'ies') {
-        btnIes.className = 'px-5 py-2 text-sm font-medium bg-accent text-white focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-1 transition';
-        btnIcpsr.className = 'px-5 py-2 text-sm font-medium bg-white text-gray-700 border-l border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-1 transition';
-      } else {
-        btnIcpsr.className = 'px-5 py-2 text-sm font-medium bg-accent text-white border-l border-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-1 transition';
-        btnIes.className = 'px-5 py-2 text-sm font-medium bg-white text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-1 transition';
-      }
+      btnIes.className = fw === 'ies'
+        ? 'px-5 py-2 text-sm font-medium rounded-l-lg bg-accent text-white focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-1 transition'
+        : 'px-5 py-2 text-sm font-medium rounded-l-lg bg-white text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-1 transition';
+      // btnIcpsr stays permanently disabled — do not touch its classes
     }
 
     // ── Consent checkbox ───────────────────────────────────────────────────────
