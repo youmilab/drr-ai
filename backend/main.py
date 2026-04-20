@@ -40,22 +40,20 @@ app.add_middleware(
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 MAX_FILE_BYTES = 20 * 1024 * 1024  # 20 MB
 METADATA_FILE = Path(__file__).parent / "usage_log.jsonl"
-GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID", "")
-GOOGLE_CREDENTIALS_JSON = os.environ.get("GOOGLE_CREDENTIALS_JSON", "")
-print(f"GOOGLE_SHEET_ID set: {bool(GOOGLE_SHEET_ID)}")
-print(f"GOOGLE_CREDENTIALS_JSON set: {bool(GOOGLE_CREDENTIALS_JSON)}")
-
-
 def _get_sheet():
-    if not GOOGLE_SHEET_ID or not GOOGLE_CREDENTIALS_JSON:
+    sheet_id = os.environ.get("GOOGLE_SHEET_ID", "")
+    creds_json = os.environ.get("GOOGLE_CREDENTIALS_JSON", "")
+    print(f"GOOGLE_SHEET_ID set: {bool(sheet_id)}")
+    print(f"GOOGLE_CREDENTIALS_JSON set: {bool(creds_json)}")
+    if not sheet_id or not creds_json:
         return None
-    creds_info = json.loads(GOOGLE_CREDENTIALS_JSON)
+    creds_info = json.loads(creds_json)
     creds = Credentials.from_service_account_info(
         creds_info,
         scopes=["https://www.googleapis.com/auth/spreadsheets"],
     )
     client = gspread.authorize(creds)
-    return client.open_by_key(GOOGLE_SHEET_ID).worksheet("Sheet1")
+    return client.open_by_key(sheet_id).worksheet("Sheet1")
 
 # ── IES/NCES compliance rules ─────────────────────────────────────────────────
 
