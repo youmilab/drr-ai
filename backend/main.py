@@ -42,6 +42,8 @@ MAX_FILE_BYTES = 20 * 1024 * 1024  # 20 MB
 METADATA_FILE = Path(__file__).parent / "usage_log.jsonl"
 GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID", "")
 GOOGLE_CREDENTIALS_JSON = os.environ.get("GOOGLE_CREDENTIALS_JSON", "")
+print(f"GOOGLE_SHEET_ID set: {bool(GOOGLE_SHEET_ID)}")
+print(f"GOOGLE_CREDENTIALS_JSON set: {bool(GOOGLE_CREDENTIALS_JSON)}")
 
 
 def _get_sheet():
