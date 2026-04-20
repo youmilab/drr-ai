@@ -500,7 +500,9 @@ def log_metadata(
         else:
             print("Google Sheets: skipped — credentials or sheet ID missing")
     except Exception as e:
+        import traceback
         print(f"Google Sheets logging error: {e}")
+        traceback.print_exc()
 
 
 # ── Source-note detection ─────────────────────────────────────────────────────
