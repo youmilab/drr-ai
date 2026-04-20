@@ -7,6 +7,8 @@ import datetime
 from pathlib import Path
 
 import anthropic
+import gspread
+from google.oauth2.service_account import Credentials
 from docx import Document
 from dotenv import load_dotenv
 from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
@@ -38,6 +40,20 @@ app.add_middleware(
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 MAX_FILE_BYTES = 20 * 1024 * 1024  # 20 MB
 METADATA_FILE = Path(__file__).parent / "usage_log.jsonl"
+GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID", "")
+GOOGLE_CREDENTIALS_JSON = os.environ.get("GOOGLE_CREDENTIALS_JSON", "")
+
+
+def _get_sheet():
+    if not GOOGLE_SHEET_ID or not GOOGLE_CREDENTIALS_JSON:
+        return None
+    creds_info = json.loads(GOOGLE_CREDENTIALS_JSON)
+    creds = Credentials.from_service_account_info(
+        creds_info,
+        scopes=["https://www.googleapis.com/auth/spreadsheets"],
+    )
+    client = gspread.authorize(creds)
+    return client.open_by_key(GOOGLE_SHEET_ID).worksheet("Sheet1")
 
 # ── IES/NCES compliance rules ─────────────────────────────────────────────────
 
@@ -457,8 +473,9 @@ def log_metadata(
     processing_time: float,
     status: str,
 ) -> None:
+    timestamp = datetime.datetime.utcnow().isoformat() + "Z"
     record = {
-        "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+        "timestamp": timestamp,
         "framework_used": framework,
         "tokens_input": tokens_in,
         "tokens_output": tokens_out,
@@ -468,6 +485,20 @@ def log_metadata(
     }
     with open(METADATA_FILE, "a", encoding="utf-8") as f:
         f.write(json.dumps(record) + "\n")
+    try:
+        sheet = _get_sheet()
+        if sheet:
+            sheet.append_row([
+                timestamp,
+                framework,
+                tokens_in,
+                tokens_out,
+                tokens_in + tokens_out,
+                round(processing_time, 2),
+                status,
+            ])
+    except Exception:
+        pass
 
 
 # ── Source-note detection ─────────────────────────────────────────────────────
